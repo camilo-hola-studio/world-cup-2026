@@ -287,6 +287,10 @@
       align-items: center;
     }
 
+    /* ── Group stage badge ───────────────────── */
+    .badge-group { color: #004080; font-weight: bold; font-size: 11px; }
+    .badge-live-now { color: #cc0000; font-weight: bold; font-size: 11px; }
+
     /* ── Misc ────────────────────────────────── */
     .section-sep { height: 14px; }
     .sunken-panel { overflow: auto; }
@@ -411,8 +415,12 @@
       <!-- ── FIXTURES ── -->
       <div class="window active" role="tabpanel" id="pane-0">
         <div class="window-body">
+          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-gs-title">GROUP STAGE — FINAL MATCHDAY</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-gs-meta">All times Melbourne AEST · Simultaneous kickoffs per group</p>
+          <div class="matches-grid" id="groupFinalGrid"></div>
+          <div class="section-sep"></div>
           <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</p>
-          <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Last group matches: 26–27 Jun</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Round of 32 begins 29 Jun</p>
           <div class="filter-row" id="filterBar"></div>
           <div class="matches-grid" id="matchesGrid"></div>
         </div>
@@ -592,41 +600,88 @@
         {n:'4th (out)',f:'',pts:0,st:'out'},
       ]},
       { name:'G', teams:[
-        {n:'France / Norway',f:'🇫🇷🇳🇴',pts:'?',st:'tbc'},
-        {n:'France / Norway',f:'',pts:'?',st:'tbc'},
+        {n:'France',f:'🇫🇷',pts:'?',st:'tbc'},
+        {n:'Norway',f:'🇳🇴',pts:'?',st:'tbc'},
         {n:'Senegal',f:'🇸🇳',pts:0,st:'out'},
         {n:'Iraq',f:'🇮🇶',pts:0,st:'out'},
       ]},
       { name:'H', teams:[
-        {n:'England/Ghana/Croatia',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',pts:'?',st:'tbc'},
-        {n:'England/Ghana/Croatia',f:'',pts:'?',st:'tbc'},
-        {n:'England/Ghana/Croatia',f:'',pts:'?',st:'tbc'},
+        {n:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',pts:'?',st:'tbc'},
+        {n:'Ghana',f:'🇬🇭',pts:'?',st:'tbc'},
+        {n:'Croatia',f:'🇭🇷',pts:'?',st:'tbc'},
         {n:'Panama',f:'🇵🇦',pts:0,st:'out'},
       ]},
       { name:'I', teams:[
-        {n:'TBC — Deciding today',f:'',pts:'?',st:'tbc'},
-        {n:'TBC — Deciding today',f:'',pts:'?',st:'tbc'},
-        {n:'TBC',f:'',pts:'?',st:'tbc'},
-        {n:'TBC (out)',f:'',pts:0,st:'out'},
+        {n:'New Zealand',f:'🇳🇿',pts:'?',st:'tbc'},
+        {n:'Belgium',f:'🇧🇪',pts:'?',st:'tbc'},
+        {n:'Egypt',f:'🇪🇬',pts:'?',st:'tbc'},
+        {n:'Iran',f:'🇮🇷',pts:'?',st:'tbc'},
       ]},
       { name:'J', teams:[
-        {n:'Spain / Uruguay',f:'🇪🇸',pts:'?',st:'tbc'},
-        {n:'Spain / Uruguay',f:'🇺🇾',pts:'?',st:'tbc'},
+        {n:'Spain',f:'🇪🇸',pts:'?',st:'tbc'},
+        {n:'Uruguay',f:'🇺🇾',pts:'?',st:'tbc'},
         {n:'Cape Verde',f:'🇨🇻',pts:0,st:'out'},
         {n:'Saudi Arabia',f:'🇸🇦',pts:0,st:'out'},
       ]},
       { name:'K', teams:[
-        {n:'Portugal / Colombia',f:'🇵🇹',pts:'?',st:'tbc'},
-        {n:'Portugal / Colombia',f:'🇨🇴',pts:'?',st:'tbc'},
-        {n:'TBC',f:'',pts:'?',st:'tbc'},
+        {n:'Portugal',f:'🇵🇹',pts:'?',st:'tbc'},
+        {n:'Colombia',f:'🇨🇴',pts:'?',st:'tbc'},
+        {n:'Congo DR',f:'🇨🇩',pts:'?',st:'tbc'},
         {n:'Uzbekistan',f:'🇺🇿',pts:0,st:'out'},
       ]},
       { name:'L', teams:[
         {n:'Argentina',f:'🇦🇷',pts:6,st:'through'},
-        {n:'Austria / Algeria',f:'🇦🇹',pts:'?',st:'tbc'},
-        {n:'Austria / Algeria',f:'🇩🇿',pts:'?',st:'tbc'},
+        {n:'Austria',f:'🇦🇹',pts:'?',st:'tbc'},
+        {n:'Algeria',f:'🇩🇿',pts:'?',st:'tbc'},
         {n:'Jordan',f:'🇯🇴',pts:0,st:'out'},
       ]},
+    ];
+
+    // Group stage final matchday — AEST times (EDT+14h)
+    // Jun 26 EDT games land Jun 27 AEST; Jun 27 EDT games land Jun 28 AEST
+    const GROUP_FINAL = [
+      // ── Group G · Jun 26 15:00 EDT → Jun 27 05:00 AEST ──
+      { id:'M61', grp:'G', home:{n:'France',f:'🇫🇷'}, away:{n:'Norway',f:'🇳🇴'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'05:00',
+        venue:'Gillette Stadium, Foxborough' },
+      { id:'M62', grp:'G', home:{n:'Senegal',f:'🇸🇳'}, away:{n:'Iraq',f:'🇮🇶'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'05:00',
+        venue:'BMO Field, Toronto' },
+      // ── Group J · Jun 26 20:00 EDT → Jun 27 10:00 AEST ──
+      { id:'M67', grp:'J', home:{n:'Uruguay',f:'🇺🇾'}, away:{n:'Spain',f:'🇪🇸'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'10:00',
+        venue:'Estadio Akron, Guadalajara' },
+      { id:'M68', grp:'J', home:{n:'Cape Verde',f:'🇨🇻'}, away:{n:'Saudi Arabia',f:'🇸🇦'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'10:00',
+        venue:'NRG Stadium, Houston' },
+      // ── Group I · Jun 26 23:00 EDT → Jun 27 13:00 AEST ──
+      { id:'M65', grp:'I', home:{n:'Egypt',f:'🇪🇬'}, away:{n:'Iran',f:'🇮🇷'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'13:00',
+        venue:'Lumen Field, Seattle' },
+      { id:'M66', grp:'I', home:{n:'New Zealand',f:'🇳🇿'}, away:{n:'Belgium',f:'🇧🇪'},
+        date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'13:00',
+        venue:'BC Place, Vancouver' },
+      // ── Group H · Jun 27 17:00 EDT → Jun 28 07:00 AEST ──
+      { id:'M63', grp:'H', home:{n:'Croatia',f:'🇭🇷'}, away:{n:'Ghana',f:'🇬🇭'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'07:00',
+        venue:'Lincoln Financial Field, Philadelphia' },
+      { id:'M64', grp:'H', home:{n:'Panama',f:'🇵🇦'}, away:{n:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'07:00',
+        venue:'MetLife Stadium, New Jersey' },
+      // ── Group K · Jun 27 19:30 EDT → Jun 28 09:30 AEST ──
+      { id:'M69', grp:'K', home:{n:'Colombia',f:'🇨🇴'}, away:{n:'Portugal',f:'🇵🇹'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'09:30',
+        venue:'Hard Rock Stadium, Miami' },
+      { id:'M70', grp:'K', home:{n:'Congo DR',f:'🇨🇩'}, away:{n:'Uzbekistan',f:'🇺🇿'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'09:30',
+        venue:'Mercedes-Benz Stadium, Atlanta' },
+      // ── Group L · Jun 27 22:00 EDT → Jun 28 12:00 AEST ──
+      { id:'M71', grp:'L', home:{n:'Algeria',f:'🇩🇿'}, away:{n:'Austria',f:'🇦🇹'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'12:00',
+        venue:'Arrowhead Stadium, Kansas City' },
+      { id:'M72', grp:'L', home:{n:'Jordan',f:'🇯🇴'}, away:{n:'Argentina',f:'🇦🇷'},
+        date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'12:00',
+        venue:"AT&T Stadium, Arlington" },
     ];
 
     const SCORERS = [
@@ -769,6 +824,8 @@
         statsTitle:'TOURNAMENT OVERVIEW',
         nationsTitle:'HOST NATIONS',
         statusR32:'Round of 32 begins 28 Jun',
+        gsTitle:'GROUP STAGE — FINAL MATCHDAY',
+        gsMeta:'All times Melbourne AEST · Simultaneous kickoffs per group',
         confirmed:'CONFIRMED ✓', partial:'RIVAL TBC', tbc:'TBC',
         vs:'vs', goals:'Goals', alltime:'All-time WC', note:'Note',
         player:'Player', team:'Team',
@@ -806,6 +863,8 @@
         statsTitle:'RESUMEN DEL TORNEO',
         nationsTitle:'PAÍSES ANFITRIONES',
         statusR32:'Los octavos comienzan el 28 jun',
+        gsTitle:'FASE DE GRUPOS — ÚLTIMA FECHA',
+        gsMeta:'Todos los horarios AEST Melbourne · Patadas simultáneas por grupo',
         confirmed:'CONFIRMADO ✓', partial:'RIVAL POR DEFINIR', tbc:'POR CONFIRMAR',
         vs:'vs', goals:'Goles', alltime:'Goles hist. WC', note:'Nota',
         player:'Jugador', team:'Equipo',
@@ -904,6 +963,8 @@
       document.getElementById('txt-live').textContent = t.live;
       document.getElementById('txt-live2').textContent = t.live2;
       document.getElementById('txt-tz').textContent = t.tz;
+      document.getElementById('txt-gs-title').textContent = t.gsTitle;
+      document.getElementById('txt-gs-meta').textContent = t.gsMeta;
       document.getElementById('txt-r32').textContent = t.r32;
       document.getElementById('txt-aest-note').textContent = t.aestNote;
       document.getElementById('txt-bk-title').textContent = t.bkTitle;
@@ -934,6 +995,36 @@
         html += `<button onclick="setFilter('${d}')" class="${activeFilter===d?'filter-active':''}">${t.dateLabels[i]}</button>`;
       });
       document.getElementById('filterBar').innerHTML = html;
+    }
+
+    function renderGroupFinal() {
+      const t = T[lang];
+      document.getElementById('groupFinalGrid').innerHTML = GROUP_FINAL.map(m => {
+        const dateStr = lang === 'es' ? m.date_es : m.date_en;
+        return `
+        <div class="window" style="margin:0">
+          <div class="title-bar">
+            <div class="title-bar-text" style="font-size:11px">${m.id} · Group ${m.grp} · ${m.venue}</div>
+          </div>
+          <div class="window-body" style="padding:6px 8px">
+            <div class="match-teams-row">
+              <div class="match-team home">${m.home.f ? m.home.f+' ' : ''}${m.home.n}</div>
+              <div class="match-vs">${t.vs}</div>
+              <div class="match-team away">${m.away.n}${m.away.f ? ' '+m.away.f : ''}</div>
+            </div>
+            <div class="match-foot">
+              <div>
+                <div class="match-time">${m.time}</div>
+                <div class="match-aest">AEST</div>
+              </div>
+              <div class="match-right">
+                <div class="match-date">${dateStr}</div>
+                <div class="badge-group">Group ${m.grp}</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
     }
 
     function renderMatches() {
@@ -1155,6 +1246,7 @@
       renderStaticText();
       renderTicker();
       renderFilters();
+      renderGroupFinal();
       renderMatches();
       renderGroups();
       renderScorers();
