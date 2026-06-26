@@ -16,7 +16,7 @@
       -moz-osx-font-smoothing: grayscale;
       text-rendering: optimizeLegibility;
     }
-    .toolbar-clock, .match-time, #liveClock, #taskbarClock, .taskbar-clock-box {
+    .toolbar-clock, .match-time, #liveClock {
       font-family: 'Courier New', Courier, monospace !important;
       letter-spacing: .02em;
     }
@@ -28,7 +28,7 @@
     /* ── Desktop ─────────────────────────────── */
     body {
       margin: 0;
-      padding: 10px 10px 44px;
+      padding: 10px;
       min-height: 100vh;
       background-color: #008080;
       background-image: repeating-linear-gradient(
@@ -247,46 +247,6 @@
     .ts-yc { color:#b8860b; font-weight:bold; }
     .ts-rc { color:#cc0000; font-weight:bold; }
 
-    /* ── Taskbar ─────────────────────────────── */
-    #taskbar {
-      position: fixed;
-      bottom: 0; left: 0; right: 0;
-      height: 30px;
-      background: silver;
-      border-top: 2px solid white;
-      box-shadow: inset 0 1px 0 #dfdfdf;
-      display: flex;
-      align-items: center;
-      padding: 2px 4px;
-      gap: 6px;
-      z-index: 1000;
-    }
-    .taskbar-task {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 12px;
-      font-weight: bold;
-      min-height: 22px;
-      padding: 1px 8px;
-      border: 2px solid;
-      border-color: #808080 #fff #fff #808080;
-      background: #c0c0c0;
-      cursor: default;
-    }
-    .taskbar-clock-box {
-      margin-left: auto;
-      font-size: 12px;
-      font-family: monospace;
-      font-variant-numeric: tabular-nums;
-      border: 2px solid;
-      border-color: #808080 #fff #fff #808080;
-      padding: 1px 8px;
-      min-height: 22px;
-      display: flex;
-      align-items: center;
-    }
-
     /* ── Group stage badge ───────────────────── */
     .badge-group { color: #004080; font-weight: bold; font-size: 11px; }
     .badge-live-now { color: #cc0000; font-weight: bold; font-size: 11px; }
@@ -298,7 +258,7 @@
 
     /* ── Mobile ≤620px ─────────────────────── */
     @media (max-width: 620px) {
-      body { padding: 4px 4px 44px; }
+      body { padding: 4px; }
 
       /* Title bar: prevent long text overflowing */
       .title-bar-text {
@@ -351,9 +311,6 @@
       .scorer-table td:nth-child(5),
       .scorer-table th:nth-child(6),
       .scorer-table td:nth-child(6) { display: none; }
-
-      /* Taskbar: hide window label to save space */
-      .taskbar-task { display: none; }
 
       /* Status bar: drop last field */
       .status-bar .status-bar-field:last-child { display: none; }
@@ -501,13 +458,6 @@
     </div>
 
   </div><!-- /app-window -->
-
-  <!-- ══ Taskbar ════════════════════════════════ -->
-  <div id="taskbar">
-    <button class="default" style="font-size:12px;font-weight:bold;min-height:24px;padding:1px 12px">⊞ Start</button>
-    <div class="taskbar-task">🏆 FIFA World Cup 2026</div>
-    <div class="taskbar-clock-box" id="taskbarClock">--:--</div>
-  </div>
 
   <script>
     // ─── DATA ──────────────────────────────────────────────────────────────
@@ -899,13 +849,10 @@
         timeZone:'Australia/Melbourne',
         hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
       }).format(new Date());
-      const short = mel.slice(0,5);
       const el = document.getElementById('liveClock');
       const sc = document.getElementById('status-clock');
-      const tk = document.getElementById('taskbarClock');
       if (el) el.textContent = mel;
       if (sc) sc.textContent = 'Melbourne: ' + mel;
-      if (tk) tk.textContent = short;
     }
     setInterval(updateClock, 1000);
     updateClock();
