@@ -3,1176 +3,827 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FIFA World Cup 2026 Live Dashboard — Round of 32 fixtures, bracket, top scorers and group standings in Melbourne time">
-  <meta property="og:title" content="FIFA World Cup 2026 — Live Dashboard">
-  <meta property="og:description" content="Live fixtures, bracket, top scorers and group standings. All kick-off times in Melbourne AEST.">
-  <meta property="og:type" content="website">
-  <meta name="theme-color" content="#080B14">
-  <title>World Cup 2026 — Live Dashboard</title>
+  <meta name="description" content="FIFA World Cup 2026 Live Dashboard — Round of 32 fixtures, group standings, Golden Boot race. Melbourne AEST times.">
+  <title>FIFA World Cup 2026 — Live Dashboard</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/98.css">
   <style>
-    :root {
-      --bg: #080B14;
-      --surface: #0F1420;
-      --surface2: #161C2D;
-      --border: rgba(255,255,255,0.07);
-      --border2: rgba(255,255,255,0.12);
-      --gold: #E8C96A;
-      --gold-dim: #B89940;
-      --text: #F1F5F9;
-      --text-sec: #94A3B8;
-      --text-dim: #4A5568;
-      --green: #22C55E;
-      --green-bg: rgba(34,197,94,0.1);
-      --amber: #F59E0B;
-      --amber-bg: rgba(245,158,11,0.1);
-      --red: #EF4444;
-      --red-bg: rgba(239,68,68,0.08);
-      --blue: #3B82F6;
-      --r: 10px;
-      --r-sm: 6px;
-    }
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    /* ── Desktop ─────────────────────────────── */
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      margin: 0;
+      padding: 10px 10px 44px;
       min-height: 100vh;
-      font-size: 14px;
-      line-height: 1.5;
+      background-color: #008080;
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,.03) 2px,
+        rgba(0,0,0,.03) 4px
+      );
     }
+    .app-window { max-width: 1100px; margin: 0 auto; }
 
-    /* ── HEADER ─────────────────────────────── */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8,11,20,0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-    }
-    .hdr-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px;
-      height: 60px;
+    /* ── Toolbar ─────────────────────────────── */
+    .toolbar {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 5px;
+      padding: 3px 6px;
+      background: silver;
+      border-bottom: 1px solid #808080;
     }
-    .hdr-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .hdr-trophy { font-size: 22px; }
-    .hdr-title { font-size: 15px; font-weight: 700; color: var(--gold); letter-spacing: 0.5px; }
-    .hdr-sub { font-size: 10px; color: var(--text-sec); letter-spacing: 2px; margin-top: 1px; }
-    .hdr-spacer { flex: 1; }
-    .hdr-right { display: flex; align-items: center; gap: 12px; }
-    .clock-wrap { text-align: right; }
-    .clock-label { font-size: 9px; color: var(--text-dim); letter-spacing: 2px; }
-    #liveClock { font-size: 15px; font-weight: 600; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .live-badge {
-      display: flex; align-items: center; gap: 5px;
-      background: var(--green-bg);
-      color: var(--green);
-      font-size: 10px; font-weight: 600;
-      padding: 4px 10px;
-      border-radius: 20px;
-      border: 1px solid rgba(34,197,94,0.2);
-      letter-spacing: 1px;
+    .toolbar-sep {
+      width: 1px; height: 20px;
+      border-left: 1px solid #808080;
+      border-right: 1px solid #fff;
+      margin: 0 3px;
     }
-    .live-dot { width: 6px; height: 6px; background: var(--green); border-radius: 50%; animation: blink 1.4s ease-in-out infinite; }
-    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.2} }
-    .lang-btn {
-      background: transparent;
-      border: 1px solid var(--gold-dim);
-      color: var(--gold);
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 11px; font-weight: 600;
-      cursor: pointer;
-      transition: all .2s;
-      letter-spacing: 1px;
-      font-family: inherit;
+    .toolbar-clock {
+      font-size: 11px;
+      font-weight: bold;
+      font-family: monospace;
+      font-variant-numeric: tabular-nums;
     }
-    .lang-btn:hover { background: var(--gold); color: #080B14; }
+    .live-dot { color: red; animation: blink 1.2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
 
-    /* ── TICKER ─────────────────────────────── */
-    .ticker {
-      background: var(--gold);
-      padding: 6px 0;
-      overflow: hidden;
-      position: relative;
-    }
-    .ticker::before, .ticker::after {
-      content: '';
-      position: absolute;
-      top: 0; bottom: 0;
-      width: 40px;
-      z-index: 2;
-    }
-    .ticker::before { left: 0; background: linear-gradient(to right, var(--gold), transparent); }
-    .ticker::after { right: 0; background: linear-gradient(to left, var(--gold), transparent); }
-    .ticker-track {
-      display: flex;
-      white-space: nowrap;
-      animation: scroll 50s linear infinite;
-    }
-    .ticker-track:hover { animation-play-state: paused; }
-    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .ticker-item {
-      font-size: 12px;
-      font-weight: 600;
-      color: #080B14;
-      padding: 0 24px;
-      white-space: nowrap;
-    }
-    .ticker-sep { color: rgba(8,11,20,0.3); }
+    /* ── Tab panels ──────────────────────────── */
+    [role="tabpanel"] { display: none; }
+    [role="tabpanel"].active { display: block; }
 
-    /* ── TABS ───────────────────────────────── */
-    .tabs-bar {
-      background: var(--surface);
-      border-bottom: 1px solid var(--border);
-      position: sticky;
-      top: 60px;
-      z-index: 90;
-    }
-    .tabs-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 16px;
-      display: flex;
-      gap: 4px;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-    .tabs-inner::-webkit-scrollbar { display: none; }
-    .tab-btn {
-      background: none;
-      border: none;
-      border-bottom: 2px solid transparent;
-      color: var(--text-sec);
-      padding: 13px 16px;
-      font-size: 11px; font-weight: 600;
-      cursor: pointer;
-      transition: all .2s;
-      letter-spacing: 1.5px;
-      white-space: nowrap;
-      font-family: inherit;
-    }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
-
-    /* ── MAIN LAYOUT ────────────────────────── */
-    main { max-width: 1200px; margin: 0 auto; padding: 20px 16px 60px; }
-    .tab-pane { display: none; }
-    .tab-pane.active { display: block; }
-
-    /* ── SECTION HEADER ─────────────────────── */
-    .sec-hd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .sec-title { font-size: 11px; font-weight: 600; color: var(--text-sec); letter-spacing: 2px; }
-    .sec-meta { font-size: 11px; color: var(--text-dim); }
-    .refresh-btn {
-      display: flex; align-items: center; gap: 5px;
-      background: var(--surface2);
-      border: 1px solid var(--border);
-      color: var(--text-sec);
-      padding: 5px 12px;
-      border-radius: var(--r-sm);
-      font-size: 11px; font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      font-family: inherit;
-    }
-    .refresh-btn:hover { border-color: var(--border2); color: var(--text); }
-    .refresh-btn.spinning svg { animation: spin .7s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── FILTER BAR ─────────────────────────── */
-    .filter-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
-    .filter-chip {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-sec);
-      padding: 5px 14px;
-      border-radius: 20px;
-      font-size: 11px; font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-      font-family: inherit;
-    }
-    .filter-chip:hover { border-color: var(--border2); color: var(--text); }
-    .filter-chip.active { background: var(--gold); border-color: var(--gold); color: #080B14; font-weight: 700; }
-
-    /* ── MATCH CARDS ────────────────────────── */
+    /* ── Matches grid ────────────────────────── */
     .matches-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 8px;
     }
-    .match-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 16px;
-      border-left: 3px solid var(--border);
-      transition: transform .2s, border-color .2s;
-      cursor: default;
-    }
-    .match-card:hover { transform: translateY(-2px); }
-    .match-card.confirmed { border-left-color: var(--green); }
-    .match-card.partial { border-left-color: var(--amber); }
-    .match-card.tbc { border-left-color: var(--text-dim); }
-    .match-card.live-now { border-left-color: var(--red); animation: pulse-border 2s ease-in-out infinite; }
-    @keyframes pulse-border { 0%,100%{border-left-color:var(--red)} 50%{border-left-color:var(--amber)} }
-
-    .mc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .mc-num { font-size: 10px; color: var(--text-dim); letter-spacing: 1px; }
-    .status-badge {
-      font-size: 9px; font-weight: 700;
-      padding: 3px 8px; border-radius: 20px;
-      letter-spacing: 1px;
-    }
-    .s-confirmed { background: var(--green-bg); color: var(--green); }
-    .s-partial { background: var(--amber-bg); color: var(--amber); }
-    .s-tbc { background: rgba(255,255,255,0.05); color: var(--text-dim); }
-    .s-live { background: var(--red-bg); color: var(--red); animation: blink 1.2s infinite; }
-
-    .mc-teams {
+    .match-teams-row {
       display: flex;
       align-items: center;
-      gap: 8px;
-      margin: 10px 0;
+      gap: 6px;
+      margin: 6px 0 10px;
     }
-    .mc-team { flex: 1; }
-    .mc-team.home { text-align: left; }
-    .mc-team.away { text-align: right; }
-    .team-flag { font-size: 20px; display: block; margin-bottom: 3px; }
-    .team-name { font-size: 13px; font-weight: 600; color: var(--text); }
-    .team-name.unknown { font-size: 11px; font-weight: 400; color: var(--text-sec); font-style: italic; }
-    .mc-vs-block { display: flex; flex-direction: column; align-items: center; gap: 3px; }
-    .mc-vs { font-size: 10px; color: var(--text-dim); font-weight: 500; }
-    .mc-score {
-      font-size: 22px; font-weight: 700;
-      color: var(--gold);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 2px;
-    }
-
-    .mc-bottom {
+    .match-team { flex: 1; font-size: 12px; font-weight: bold; line-height: 1.3; }
+    .match-team.home { text-align: left; }
+    .match-team.away { text-align: right; }
+    .match-team.unknown { font-weight: normal; color: #808080; font-style: italic; font-size: 11px; }
+    .match-vs { font-size: 10px; color: #808080; white-space: nowrap; }
+    .match-foot {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      margin-top: 12px;
-      padding-top: 10px;
-      border-top: 1px solid var(--border);
-      gap: 8px;
+      border-top: 1px solid #808080;
+      padding-top: 6px;
+      margin-top: 4px;
     }
-    .mc-time-block {}
-    .mc-time { font-size: 22px; font-weight: 700; color: var(--gold); font-variant-numeric: tabular-nums; }
-    .mc-time-meta { font-size: 10px; color: var(--text-sec); margin-top: 2px; }
-    .mc-venue-block { text-align: right; }
-    .mc-venue { font-size: 11px; color: var(--text-sec); line-height: 1.4; }
+    .match-time { font-size: 20px; font-weight: bold; font-family: monospace; line-height: 1; }
+    .match-aest { font-size: 9px; color: #808080; }
+    .match-right { text-align: right; }
+    .match-date { font-size: 10px; color: #404040; }
+    .match-venue { font-size: 10px; color: #808080; line-height: 1.3; max-width: 130px; }
+    .badge-confirmed { color: #006400; font-weight: bold; font-size: 9px; }
+    .badge-partial   { color: #804000; font-size: 9px; }
+    .badge-tbc       { color: #808080; font-size: 9px; }
 
-    /* ── GROUPS GRID ────────────────────────── */
+    /* ── Groups grid ─────────────────────────── */
     .groups-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-      gap: 12px;
-    }
-    .group-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-    }
-    .group-hd {
-      background: var(--surface2);
-      padding: 8px 14px;
-      font-size: 11px; font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 2px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .group-hd-meta { font-size: 9px; color: var(--text-dim); font-weight: 500; letter-spacing: 0; }
-    .group-team {
-      display: flex;
-      align-items: center;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
       gap: 8px;
-      padding: 8px 14px;
-      border-bottom: 1px solid var(--border);
-      transition: background .15s;
     }
-    .group-team:last-child { border-bottom: none; }
-    .group-team:hover { background: var(--surface2); }
-    .gt-pos { font-size: 11px; color: var(--text-dim); min-width: 14px; }
-    .gt-flag { font-size: 16px; min-width: 20px; }
-    .gt-name { flex: 1; font-size: 12px; font-weight: 500; }
-    .gt-name.eliminated { color: var(--text-dim); text-decoration: line-through; }
-    .gt-name.tbc-team { color: var(--text-sec); font-style: italic; }
-    .gt-stats { display: flex; gap: 10px; align-items: center; }
-    .gt-pts { font-size: 13px; font-weight: 700; color: var(--gold); min-width: 20px; text-align: right; }
-    .gt-thru { font-size: 11px; color: var(--green); }
-    .gt-tbc { font-size: 11px; color: var(--amber); }
+    .groups-grid fieldset { margin: 0; }
+    .group-table { font-size: 11px; width: 100%; border-collapse: collapse; }
+    .group-table th { font-size: 10px; text-align: left; padding: 2px 4px; }
+    .group-table td { padding: 2px 4px; }
 
-    /* ── GOLDEN BOOT ────────────────────────── */
-    .scorers-list { display: flex; flex-direction: column; gap: 8px; max-width: 680px; }
-    .scorer-row {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px 16px;
-      transition: border-color .2s;
-    }
-    .scorer-row:hover { border-color: var(--border2); }
-    .scorer-rank { font-size: 18px; font-weight: 700; color: var(--gold); min-width: 24px; text-align: center; }
-    .scorer-rank.r1 { color: #FFD700; }
-    .scorer-rank.r2 { color: #C0C0C0; }
-    .scorer-rank.r3 { color: #CD7F32; }
-    .scorer-flag { font-size: 22px; }
-    .scorer-info { flex: 1; }
-    .scorer-name { font-size: 14px; font-weight: 600; color: var(--text); }
-    .scorer-team { font-size: 11px; color: var(--text-sec); margin-top: 2px; }
-    .scorer-note { font-size: 10px; color: var(--gold); margin-top: 4px; font-weight: 600; letter-spacing: 0.5px; }
-    .scorer-goals-block { text-align: right; }
-    .scorer-goals { font-size: 28px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
-    .scorer-goals-label { font-size: 10px; color: var(--text-dim); }
-    .goal-bar-wrap { height: 4px; background: var(--border); border-radius: 2px; margin-top: 6px; width: 80px; }
-    .goal-bar { height: 4px; background: var(--gold); border-radius: 2px; transition: width .6s ease; }
+    /* ── Scorer table ────────────────────────── */
+    .scorer-wrap { overflow-x: auto; }
+    .scorer-table { font-size: 11px; width: 100%; }
+    .scorer-table th, .scorer-table td { padding: 3px 6px; white-space: nowrap; }
+    .goal-bar-cell { min-width: 80px; }
+    .goal-bar-bg { height: 8px; background: #c0c0c0; border: 1px inset; }
+    .goal-bar-fill { height: 8px; background: navy; }
 
-    /* ── RECORDS ────────────────────────────── */
+    /* ── Records ─────────────────────────────── */
     .records-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 10px;
-      margin: 20px 0;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 8px;
     }
-    .rec-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 16px 18px;
-      position: relative;
-      overflow: hidden;
-    }
-    .rec-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--gold);
-    }
-    .rec-num { font-size: 36px; font-weight: 900; color: var(--gold); line-height: 1; }
-    .rec-who { font-size: 13px; font-weight: 600; color: var(--text); margin-top: 6px; }
-    .rec-label { font-size: 11px; color: var(--text-sec); margin-top: 4px; line-height: 1.5; }
+    .records-grid fieldset { margin: 0; }
+    .rec-num { font-size: 28px; font-weight: bold; color: navy; }
+    .rec-who { font-size: 11px; font-weight: bold; margin: 3px 0; }
+    .rec-label { font-size: 10px; color: #404040; line-height: 1.4; }
 
-    /* ── FACTS ──────────────────────────────── */
-    .facts-grid {
+    /* ── Facts list ──────────────────────────── */
+    .facts-list { padding: 0; margin: 0; }
+    .facts-list li { font-size: 11px; margin-bottom: 6px; line-height: 1.5; padding-left: 4px; }
+
+    /* ── Stats grid ──────────────────────────── */
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 10px;
-      margin-top: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
     }
-    .fact-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 3px solid var(--gold);
-      border-radius: 0 var(--r) var(--r) 0;
-      padding: 12px 16px;
-    }
-    .fact-card.highlight { border-left-color: var(--green); }
-    .fact-icon { font-size: 16px; margin-bottom: 5px; display: block; }
-    .fact-text { font-size: 12px; color: var(--text); line-height: 1.6; }
-
-    /* ── BRACKET ────────────────────────────── */
-    .bracket-scroller { overflow-x: auto; padding-bottom: 12px; }
-    .bracket-cols {
-      display: flex;
-      min-width: 900px;
-      gap: 0;
-    }
-    .bk-col {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .bk-col-hd {
-      text-align: center;
-      font-size: 9px; font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 2px;
+    .stat-box {
+      border: 2px inset silver;
+      background: white;
       padding: 8px;
-      background: var(--surface2);
-      border-bottom: 1px solid var(--border);
-      border-right: 1px solid var(--border);
+      text-align: center;
     }
-    .bk-col:last-child .bk-col-hd { border-right: none; }
-    .bk-matches {
-      flex: 1;
+    .stat-num { font-size: 20px; font-weight: bold; color: navy; }
+    .stat-lbl { font-size: 9px; color: #404040; margin-top: 3px; letter-spacing: .5px; }
+
+    /* ── Filter row ──────────────────────────── */
+    .filter-row {
       display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      padding: 8px 4px;
-      gap: 6px;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
     }
-    .bk-match {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r-sm);
-      overflow: hidden;
-      margin: 2px;
+    .filter-row button { font-size: 10px; padding: 1px 8px; }
+    .filter-active {
+      box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
+      background: #c0c0c0 !important;
     }
-    .bk-match.final-match {
-      border-color: var(--gold);
-    }
-    .bk-team {
-      padding: 5px 8px;
+
+    /* ── Bracket table ───────────────────────── */
+    .bracket-outer { overflow-x: auto; margin: 0 -4px; padding: 0 4px 4px; }
+    .bracket-table {
+      border-collapse: collapse;
       font-size: 10px;
-      color: var(--text-sec);
-      border-bottom: 1px solid var(--border);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      min-width: 820px;
+      width: 100%;
+      table-layout: fixed;
     }
-    .bk-team:last-child { border-bottom: none; }
-    .bk-team.known { color: var(--text); font-weight: 500; }
-    .bk-team.tbc-slot { color: var(--text-dim); font-style: italic; font-size: 9px; }
-    .bk-team.champion { color: var(--gold); font-weight: 700; text-align: center; padding: 10px; }
-    .bk-spacer { height: 20px; }
-    .bk-divider { height: 1px; background: var(--border); margin: 4px 0; }
-
-    /* ── STATS OVERVIEW ─────────────────────── */
-    .stats-overview {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 10px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px;
+    .bracket-table thead th {
+      font-size: 9px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      background: navy;
+      color: #fff;
+      padding: 3px 4px;
       text-align: center;
+      border: 1px solid #000060;
     }
-    .stat-num { font-size: 28px; font-weight: 700; color: var(--gold); }
-    .stat-label { font-size: 10px; color: var(--text-sec); margin-top: 4px; letter-spacing: 1px; }
-
-    /* ── FOOTER ─────────────────────────────── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 20px 16px;
-      text-align: center;
+    .bracket-table td { vertical-align: middle; text-align: center; padding: 2px; }
+    /* R32 match cells */
+    .bk-r32 {
+      width: 13%;
+      padding: 3px 5px !important;
+      border: 1px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #c0c0c0;
+      text-align: left !important;
+      cursor: default;
+    }
+    .bk-r32.bk-conf   { border-left: 3px solid #006400; }
+    .bk-r32.bk-part   { border-left: 3px solid #804000; background:#d8ccba; }
+    .bk-r32.bk-tbc-m  { border-left: 3px solid #888; background: #d4d0c8; }
+    .bk-id   { display:block; font-size:8px; color:#606060; line-height:1.2; }
+    .bk-tm   { display:block; font-size:9px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .bk-unk  { font-weight:normal; color:#808080; font-style:italic; }
+    .bk-vsep { display:block; font-size:8px; color:#a0a0a0; line-height:1.1; }
+    .bk-dt   { display:block; font-size:8px; color:navy; margin-top:1px; }
+    /* Later-round cells */
+    .bk-later {
+      width: 8%;
+      font-size: 9px;
+      font-weight: bold;
+      color: #202060;
+      background: #c8ccd8;
+      border: 1px solid #9090a8;
+    }
+    .bk-later .bk-sub { font-size: 8px; font-weight:normal; color:#606080; display:block; margin-top:2px; line-height:1.3; }
+    .bk-qf-cell  { background: #bcc4d8; }
+    .bk-sf-cell  { background: #b0bcd4; width:7%; }
+    .bk-final-td {
+      background: #000080;
+      color: #ffff00;
+      border: 2px solid gold !important;
+      font-weight: bold;
       font-size: 11px;
-      color: var(--text-dim);
+      width: 9%;
     }
-    footer a { color: var(--text-sec); text-decoration: none; }
-    footer a:hover { color: var(--gold); }
+    .bk-final-td small { display:block; font-size:8px; color:#c0c0ff; margin-top:3px; }
+    .bracket-note { font-size:10px; color:#606060; margin-top:6px; }
 
-    /* ── RESPONSIVE ─────────────────────────── */
-    @media (max-width: 600px) {
-      .hdr-sub { display: none; }
-      .live-badge { display: none; }
-      .hdr-title { font-size: 13px; }
-      #liveClock { font-size: 13px; }
-      .matches-grid { grid-template-columns: 1fr; }
+    /* ── Team stats cards ────────────────────── */
+    .ts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .ts-card fieldset { margin: 0; padding: 5px 8px; }
+    .ts-info { font-size: 10px; color: #404040; line-height: 1.5; margin-bottom: 3px; }
+    .ts-bar-bg { height: 7px; background: #c0c0c0; border: 1px inset; margin: 1px 0 4px; }
+    .ts-bar-fill { height: 7px; }
+    .ts-bar-market { background: #008080; }
+    .ts-bar-poss   { background: navy; }
+    .ts-bar-shots  { background: #804000; }
+    .ts-row { display:flex; gap:8px; font-size:10px; flex-wrap:wrap; margin-top:4px; align-items:center; }
+    .ts-stat { white-space:nowrap; }
+    .ts-yc { color:#b8860b; font-weight:bold; }
+    .ts-rc { color:#cc0000; font-weight:bold; }
+
+    /* ── Taskbar ─────────────────────────────── */
+    #taskbar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 30px;
+      background: silver;
+      border-top: 2px solid white;
+      box-shadow: inset 0 1px 0 #dfdfdf;
+      display: flex;
+      align-items: center;
+      padding: 2px 4px;
+      gap: 6px;
+      z-index: 1000;
+    }
+    .taskbar-task {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      min-height: 22px;
+      padding: 1px 8px;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      background: #c0c0c0;
+      cursor: default;
+    }
+    .taskbar-clock-box {
+      margin-left: auto;
+      font-size: 11px;
+      font-family: monospace;
+      font-variant-numeric: tabular-nums;
+      border: 2px solid;
+      border-color: #808080 #fff #fff #808080;
+      padding: 1px 8px;
+      min-height: 22px;
+      display: flex;
+      align-items: center;
+    }
+
+    /* ── Misc ────────────────────────────────── */
+    .section-sep { height: 14px; }
+    .sunken-panel { overflow: auto; }
+    .section-hd { font-weight: bold; font-size: 11px; border-bottom: 1px solid #808080; margin-bottom: 8px; padding-bottom: 3px; }
+
+    @media (max-width: 620px) {
+      body { padding: 4px 4px 44px; }
       .groups-grid { grid-template-columns: 1fr 1fr; }
-      .mc-time { font-size: 18px; }
-      .mc-venue { font-size: 10px; }
+      .matches-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .toolbar span[id="txt-tz"] { display: none; }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="hdr-inner">
-      <a class="hdr-brand" href="#">
-        <span class="hdr-trophy">🏆</span>
-        <div>
-          <div class="hdr-title" id="txt-title">FIFA WORLD CUP 2026</div>
-          <div class="hdr-sub" id="txt-sub">USA · CANADA · MEXICO</div>
-        </div>
-      </a>
-      <div class="hdr-spacer"></div>
-      <div class="hdr-right">
-        <div class="live-badge"><span class="live-dot"></span><span id="txt-live">LIVE</span></div>
-        <div class="clock-wrap">
-          <div class="clock-label" id="txt-tz">MELBOURNE AEST</div>
-          <div id="liveClock">--:--:--</div>
-        </div>
-        <button class="lang-btn" id="langBtn" onclick="toggleLang()">ES</button>
+  <!-- ══ Main Window ════════════════════════════ -->
+  <div class="window app-window">
+
+    <div class="title-bar">
+      <div class="title-bar-text">🏆 FIFA World Cup 2026 — Live Dashboard</div>
+      <div class="title-bar-controls">
+        <button aria-label="Minimize"></button>
+        <button aria-label="Maximize"></button>
+        <button aria-label="Close"></button>
       </div>
     </div>
-  </header>
 
-  <div class="ticker" aria-hidden="true">
-    <div class="ticker-track" id="tickerTrack"></div>
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <button onclick="toggleLang()" id="langBtn" style="font-size:11px;min-height:20px">🌐 ES</button>
+      <div class="toolbar-sep"></div>
+      <button onclick="refreshData(this)" id="refreshBtn" style="font-size:11px;min-height:20px">🔄 <span id="txt-refresh">Refresh</span></button>
+      <div class="toolbar-sep"></div>
+      <span class="live-dot">●</span>
+      <span id="txt-live" style="font-size:11px;font-weight:bold">LIVE</span>
+      <div class="toolbar-sep"></div>
+      <span id="txt-tz" style="font-size:10px;color:#404040">Melbourne AEST:</span>
+      <span id="liveClock" class="toolbar-clock">--:--:--</span>
+    </div>
+
+    <!-- Ticker marquee — authentic Win98 -->
+    <marquee id="ticker" behavior="scroll" direction="left" scrollamount="3"
+      style="background:#000080;color:#ffff00;font-size:11px;padding:3px 0;display:block"></marquee>
+
+    <!-- Tabs + Panels -->
+    <div class="window-body" style="padding-bottom:0;padding-top:10px">
+
+      <menu role="tablist" id="tabMenu" style="margin-bottom:0">
+        <li role="tab" aria-selected="true"><a href="#" onclick="switchTab(0);return false" id="tl-0">📅 Fixtures</a></li>
+        <li role="tab"><a href="#" onclick="switchTab(1);return false" id="tl-1">🏆 Bracket</a></li>
+        <li role="tab"><a href="#" onclick="switchTab(2);return false" id="tl-2">📊 Groups</a></li>
+        <li role="tab"><a href="#" onclick="switchTab(3);return false" id="tl-3">⚽ Golden Boot</a></li>
+        <li role="tab"><a href="#" onclick="switchTab(4);return false" id="tl-4">📈 Stats</a></li>
+      </menu>
+
+      <!-- ── FIXTURES ── -->
+      <div class="window active" role="tabpanel" id="pane-0">
+        <div class="window-body">
+          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</p>
+          <p style="font-size:10px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Last group matches: 26–27 Jun</p>
+          <div class="filter-row" id="filterBar"></div>
+          <div class="matches-grid" id="matchesGrid"></div>
+        </div>
+      </div>
+
+      <!-- ── BRACKET ── -->
+      <div class="window" role="tabpanel" id="pane-1">
+        <div class="window-body">
+          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-bk-title">KNOCKOUT BRACKET — PATH TO THE FINAL</p>
+          <p style="font-size:10px;color:#404040;margin-bottom:8px">MetLife Stadium, New Jersey · Final: 19 July 2026 · Read left→centre→right</p>
+          <div class="bracket-outer" id="bracketWrap"></div>
+        </div>
+      </div>
+
+      <!-- ── GROUPS ── -->
+      <div class="window" role="tabpanel" id="pane-2">
+        <div class="window-body">
+          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-grp-title">GROUP STAGE — ALL 12 GROUPS</p>
+          <p style="font-size:10px;color:#404040;margin-bottom:10px" id="txt-grp-meta">Highlighted = qualified · Top 2 per group + 8 best 3rd-place teams advance</p>
+          <div class="groups-grid" id="groupsGrid"></div>
+        </div>
+      </div>
+
+      <!-- ── GOLDEN BOOT ── -->
+      <div class="window" role="tabpanel" id="pane-3">
+        <div class="window-body">
+          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-gb-title">GOLDEN BOOT RACE</p>
+          <p style="font-size:10px;color:#404040;margin-bottom:8px" id="txt-gb-meta">Top scorers after group stage · 26 June 2026</p>
+
+          <div class="sunken-panel scorer-wrap" style="max-height:280px">
+            <table class="interactive scorer-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th id="th-player">Player</th>
+                  <th id="th-team">Team</th>
+                  <th id="th-goals">Goals</th>
+                  <th id="th-alltime">All-time WC</th>
+                  <th id="th-bar">---</th>
+                </tr>
+              </thead>
+              <tbody id="scorersBody"></tbody>
+            </table>
+          </div>
+
+          <div class="section-sep"></div>
+          <p class="section-hd" id="txt-rec-title">RECORDS BROKEN IN 2026</p>
+          <div class="records-grid" id="recordsGrid"></div>
+
+          <div class="section-sep"></div>
+          <p class="section-hd" id="txt-facts-title">FUN FACTS</p>
+          <ul class="facts-list" id="factsList"></ul>
+        </div>
+      </div>
+
+      <!-- ── STATS ── -->
+      <div class="window" role="tabpanel" id="pane-4">
+        <div class="window-body">
+          <p style="font-size:11px;font-weight:bold;margin-bottom:10px" id="txt-stats-title">TOURNAMENT OVERVIEW</p>
+          <div class="stats-grid" id="statsGrid"></div>
+          <p class="section-hd" id="txt-nations-title">HOST NATIONS</p>
+          <ul class="facts-list" id="hostList"></ul>
+          <div class="section-sep"></div>
+          <p class="section-hd" id="txt-ts-title">R32 TEAM PERFORMANCE — GROUP STAGE</p>
+          <p style="font-size:9px;color:#606060;margin-bottom:6px">Stats from ESPN · Market values from Soccergraph · Managers from WorldSoccerTalk · Possession/shots/cards averaged over 3 group matches</p>
+          <div class="ts-grid" id="teamStatsGrid"></div>
+        </div>
+      </div>
+
+    </div><!-- /window-body tabs -->
+
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <p class="status-bar-field"><span class="live-dot">●</span> <span id="txt-live2">LIVE</span></p>
+      <p class="status-bar-field" id="status-clock">Melbourne: --:--:--</p>
+      <p class="status-bar-field" id="status-r32">Round of 32 begins 28 Jun</p>
+      <p class="status-bar-field">Data: 26 Jun 2026</p>
+    </div>
+
+  </div><!-- /app-window -->
+
+  <!-- ══ Taskbar ════════════════════════════════ -->
+  <div id="taskbar">
+    <button class="default" style="font-size:11px;font-weight:bold;min-height:22px;padding:1px 10px">⊞ Start</button>
+    <div class="taskbar-task">🏆 FIFA World Cup 2026</div>
+    <div class="taskbar-clock-box" id="taskbarClock">--:--</div>
   </div>
-
-  <div class="tabs-bar">
-    <div class="tabs-inner">
-      <button class="tab-btn active" data-tab="fixtures" onclick="switchTab(this)">FIXTURES</button>
-      <button class="tab-btn" data-tab="bracket" onclick="switchTab(this)">BRACKET</button>
-      <button class="tab-btn" data-tab="groups" onclick="switchTab(this)">GROUPS</button>
-      <button class="tab-btn" data-tab="golden-boot" onclick="switchTab(this)">GOLDEN BOOT</button>
-      <button class="tab-btn" data-tab="stats" onclick="switchTab(this)">TOURNAMENT STATS</button>
-    </div>
-  </div>
-
-  <main>
-
-    <!-- FIXTURES TAB -->
-    <div class="tab-pane active" id="pane-fixtures">
-      <div class="sec-hd">
-        <div>
-          <div class="sec-title" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</div>
-          <div class="sec-meta" id="txt-aest-note">All kick-off times in Melbourne AEST · Last group matches: 26-27 Jun</div>
-        </div>
-        <button class="refresh-btn" onclick="refreshData(this)">
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
-          <span id="txt-refresh">Refresh</span>
-        </button>
-      </div>
-      <div class="filter-bar" id="filterBar"></div>
-      <div class="matches-grid" id="matchesGrid"></div>
-    </div>
-
-    <!-- BRACKET TAB -->
-    <div class="tab-pane" id="pane-bracket">
-      <div class="sec-hd">
-        <div class="sec-title" id="txt-bk-title">KNOCKOUT BRACKET — PATH TO THE FINAL</div>
-        <div class="sec-meta">MetLife Stadium, New Jersey · 19 July 2026</div>
-      </div>
-      <div class="bracket-scroller">
-        <div class="bracket-cols" id="bracketCols"></div>
-      </div>
-    </div>
-
-    <!-- GROUPS TAB -->
-    <div class="tab-pane" id="pane-groups">
-      <div class="sec-hd">
-        <div class="sec-title" id="txt-grp-title">GROUP STAGE STANDINGS — ALL 12 GROUPS</div>
-        <div class="sec-meta" id="txt-grp-meta">Top 2 per group + 8 best 3rd-place teams advance · ✓ = Through · ? = Deciding today</div>
-      </div>
-      <div class="groups-grid" id="groupsGrid"></div>
-    </div>
-
-    <!-- GOLDEN BOOT TAB -->
-    <div class="tab-pane" id="pane-golden-boot">
-      <div class="sec-hd">
-        <div class="sec-title" id="txt-gb-title">GOLDEN BOOT RACE</div>
-        <div class="sec-meta" id="txt-gb-meta">Top scorers after group stage · Records as of 26 June 2026</div>
-      </div>
-      <div class="scorers-list" id="scorersList"></div>
-
-      <div style="height:28px"></div>
-      <div class="sec-title" id="txt-rec-title" style="margin-bottom:12px">RECORDS BROKEN IN 2026</div>
-      <div class="records-grid" id="recordsGrid"></div>
-
-      <div style="height:28px"></div>
-      <div class="sec-title" id="txt-facts-title" style="margin-bottom:12px">FUN FACTS</div>
-      <div class="facts-grid" id="factsGrid"></div>
-    </div>
-
-    <!-- STATS TAB -->
-    <div class="tab-pane" id="pane-stats">
-      <div class="sec-hd">
-        <div class="sec-title" id="txt-stats-title">TOURNAMENT OVERVIEW</div>
-        <div class="sec-meta">Group stage completed · Round of 32 begins 28 June 2026</div>
-      </div>
-      <div class="stats-overview" id="statsOverview"></div>
-      <div class="sec-title" style="margin:20px 0 12px" id="txt-nations-title">HOST NATIONS</div>
-      <div class="facts-grid" id="hostFacts"></div>
-    </div>
-
-  </main>
-
-  <footer>
-    <p>🏆 <strong>FIFA World Cup 2026™</strong> — USA · Canada · Mexico &nbsp;|&nbsp; Dashboard by <a href="https://holastudio.com.au" target="_blank" rel="noopener">Hola Studio</a></p>
-    <p style="margin-top:6px">All times Melbourne AEST (UTC+10) · Data sourced from public match records · Not affiliated with FIFA</p>
-  </footer>
 
   <script>
-    // ─────────────────────────────────────────
-    //  DATA
-    // ─────────────────────────────────────────
+    // ─── DATA ──────────────────────────────────────────────────────────────
     const MATCHES = [
       { id:'M74', home:{n:'South Africa',f:'🇿🇦'}, away:{n:'Canada',f:'🇨🇦'},
-        date_en:'Mon 29 Jun', date_es:'Lun 29 Jun', time:'10:00', venue:'SoFi Stadium, Los Angeles',
-        status:'confirmed', dateKey:'Jun29' },
+        date_en:'Mon 29 Jun', date_es:'Lun 29 Jun', time:'10:00',
+        venue:'SoFi Stadium, LA', status:'confirmed', dk:'Jun29' },
       { id:'M75', home:{n:'Brazil',f:'🇧🇷'}, away:{n:'Japan',f:'🇯🇵'},
-        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'08:00', venue:'NRG Stadium, Houston',
-        status:'confirmed', dateKey:'Jun30' },
+        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'08:00',
+        venue:'NRG Stadium, Houston', status:'confirmed', dk:'Jun30' },
       { id:'M76', home:{n:'Germany',f:'🇩🇪'}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'11:30', venue:'Gillette Stadium, Foxborough',
-        status:'partial', dateKey:'Jun30' },
+        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'11:30',
+        venue:'Gillette Stadium, Foxborough', status:'partial', dk:'Jun30' },
       { id:'M77', home:{n:'Netherlands',f:'🇳🇱'}, away:{n:'Morocco',f:'🇲🇦'},
-        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'16:00', venue:'Estadio Akron, Guadalajara',
-        status:'confirmed', dateKey:'Jun30' },
+        date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'16:00',
+        venue:'Estadio Akron, Guadalajara', status:'confirmed', dk:'Jun30' },
       { id:'M78', home:{n:'Ivory Coast',f:'🇨🇮'}, away:{n:'TBC (Group I runner-up)',f:''},
-        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'08:00', venue:'AT&T Stadium, Arlington',
-        status:'partial', dateKey:'Jul1' },
+        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'08:00',
+        venue:'AT&T Stadium, Arlington', status:'partial', dk:'Jul1' },
       { id:'M79', home:{n:'TBC (Group I winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'12:00', venue:'MetLife Stadium, New Jersey',
-        status:'tbc', dateKey:'Jul1' },
+        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'12:00',
+        venue:'MetLife Stadium, New Jersey', status:'tbc', dk:'Jul1' },
       { id:'M80', home:{n:'Mexico',f:'🇲🇽'}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'16:00', venue:'Rose Bowl, Los Angeles',
-        status:'partial', dateKey:'Jul1' },
+        date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'16:00',
+        venue:'Rose Bowl, Los Angeles', status:'partial', dk:'Jul1' },
       { id:'M81', home:{n:'TBC (Group L winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'07:00', venue:'Mercedes-Benz Stadium, Atlanta',
-        status:'tbc', dateKey:'Jul2' },
+        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'07:00',
+        venue:'Mercedes-Benz Stadium, Atlanta', status:'tbc', dk:'Jul2' },
       { id:'M82', home:{n:'TBC (Group G winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'11:00', venue:'Lumen Field, Seattle',
-        status:'tbc', dateKey:'Jul2' },
+        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'11:00',
+        venue:'Lumen Field, Seattle', status:'tbc', dk:'Jul2' },
       { id:'M83', home:{n:'USA',f:'🇺🇸'}, away:{n:'Bosnia & Herzegovina',f:'🇧🇦'},
-        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'15:00', venue:"Levi's Stadium, Santa Clara",
-        status:'confirmed', dateKey:'Jul2' },
+        date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'15:00',
+        venue:"Levi's Stadium, Santa Clara", status:'confirmed', dk:'Jul2' },
       { id:'M84', home:{n:'TBC (Group J winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'08:00', venue:'TBC Venue',
-        status:'tbc', dateKey:'Jul3' },
+        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'08:00',
+        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
       { id:'M85', home:{n:'TBC (Group H winner)',f:''}, away:{n:'TBC (Group K runner-up)',f:''},
-        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'12:00', venue:'TBC Venue',
-        status:'tbc', dateKey:'Jul3' },
+        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'12:00',
+        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
       { id:'M86', home:{n:'TBC (Group K winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
-        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'16:00', venue:'TBC Venue',
-        status:'tbc', dateKey:'Jul3' },
+        date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'16:00',
+        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
       { id:'M87', home:{n:'Argentina',f:'🇦🇷'}, away:{n:'TBC',f:''},
-        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'08:00', venue:'TBC Venue',
-        status:'partial', dateKey:'Jul4' },
+        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'08:00',
+        venue:'TBC Venue', status:'partial', dk:'Jul4' },
       { id:'M88', home:{n:'TBC (Group J runner-up)',f:''}, away:{n:'TBC (Group K winner)',f:''},
-        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'12:00', venue:'TBC Venue',
-        status:'tbc', dateKey:'Jul4' },
+        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'12:00',
+        venue:'TBC Venue', status:'tbc', dk:'Jul4' },
       { id:'M89', home:{n:'TBC (Group H runner-up)',f:''}, away:{n:'TBC',f:''},
-        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'16:00', venue:'TBC Venue',
-        status:'tbc', dateKey:'Jul4' },
+        date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'16:00',
+        venue:'TBC Venue', status:'tbc', dk:'Jul4' },
     ];
 
     const GROUPS = [
       { name:'A', teams:[
-        {n:'Mexico',f:'🇲🇽',pts:9,w:3,d:0,l:0,gf:7,ga:1,st:'through'},
-        {n:'South Africa',f:'🇿🇦',pts:4,w:1,d:1,l:1,gf:3,ga:3,st:'through'},
-        {n:'South Korea',f:'🇰🇷',pts:3,w:1,d:0,l:2,gf:3,ga:5,st:'out'},
-        {n:'Czechia',f:'🇨🇿',pts:0,w:0,d:0,l:3,gf:0,ga:4,st:'out'},
+        {n:'Mexico',f:'🇲🇽',pts:9,st:'through'},
+        {n:'South Africa',f:'🇿🇦',pts:4,st:'through'},
+        {n:'South Korea',f:'🇰🇷',pts:3,st:'out'},
+        {n:'Czechia',f:'🇨🇿',pts:0,st:'out'},
       ]},
       { name:'B', teams:[
-        {n:'Switzerland',f:'🇨🇭',pts:7,w:2,d:1,l:0,gf:6,ga:2,st:'through'},
-        {n:'Canada',f:'🇨🇦',pts:4,w:1,d:1,l:1,gf:3,ga:3,st:'through'},
-        {n:'Bosnia & Herz.',f:'🇧🇦',pts:3,w:1,d:0,l:2,gf:3,ga:5,st:'through'},
-        {n:'4th (eliminated)',f:'',pts:0,w:0,d:0,l:3,gf:0,ga:0,st:'out'},
+        {n:'Switzerland',f:'🇨🇭',pts:7,st:'through'},
+        {n:'Canada',f:'🇨🇦',pts:4,st:'through'},
+        {n:'Bosnia & Herz.',f:'🇧🇦',pts:3,st:'through'},
+        {n:'4th (out)',f:'',pts:0,st:'out'},
       ]},
       { name:'C', teams:[
-        {n:'Brazil',f:'🇧🇷',pts:7,w:2,d:1,l:0,gf:8,ga:2,st:'through'},
-        {n:'Morocco',f:'🇲🇦',pts:7,w:2,d:1,l:0,gf:5,ga:1,st:'through'},
-        {n:'Scotland',f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',pts:1,w:0,d:1,l:2,gf:1,ga:7,st:'out'},
-        {n:'Haiti',f:'🇭🇹',pts:0,w:0,d:0,l:3,gf:0,ga:4,st:'out'},
+        {n:'Brazil',f:'🇧🇷',pts:7,st:'through'},
+        {n:'Morocco',f:'🇲🇦',pts:7,st:'through'},
+        {n:'Scotland',f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',pts:1,st:'out'},
+        {n:'Haiti',f:'🇭🇹',pts:0,st:'out'},
       ]},
       { name:'D', teams:[
-        {n:'USA',f:'🇺🇸',pts:6,w:2,d:0,l:1,gf:5,ga:2,st:'through'},
-        {n:'Australia',f:'🇦🇺',pts:4,w:1,d:1,l:1,gf:3,ga:4,st:'through'},
-        {n:'Paraguay',f:'🇵🇾',pts:2,w:0,d:2,l:1,gf:1,ga:3,st:'out'},
-        {n:'Qatar',f:'🇶🇦',pts:0,w:0,d:0,l:3,gf:0,ga:0,st:'out'},
+        {n:'USA',f:'🇺🇸',pts:6,st:'through'},
+        {n:'Australia',f:'🇦🇺',pts:4,st:'through'},
+        {n:'Paraguay',f:'🇵🇾',pts:2,st:'out'},
+        {n:'Qatar',f:'🇶🇦',pts:0,st:'out'},
       ]},
       { name:'E', teams:[
-        {n:'Germany',f:'🇩🇪',pts:6,w:2,d:0,l:1,gf:9,ga:3,st:'through'},
-        {n:'Ivory Coast',f:'🇨🇮',pts:6,w:2,d:0,l:1,gf:4,ga:3,st:'through'},
-        {n:'Ecuador',f:'🇪🇨',pts:3,w:1,d:0,l:2,gf:3,ga:5,st:'tbc'},
-        {n:'Curaçao',f:'🏝️',pts:0,w:0,d:0,l:3,gf:1,ga:6,st:'out'},
+        {n:'Germany',f:'🇩🇪',pts:6,st:'through'},
+        {n:'Ivory Coast',f:'🇨🇮',pts:6,st:'through'},
+        {n:'Ecuador',f:'🇪🇨',pts:3,st:'tbc'},
+        {n:'Curaçao',f:'',pts:0,st:'out'},
       ]},
       { name:'F', teams:[
-        {n:'Netherlands',f:'🇳🇱',pts:7,w:2,d:1,l:0,gf:6,ga:2,st:'through'},
-        {n:'Japan',f:'🇯🇵',pts:6,w:2,d:0,l:1,gf:5,ga:3,st:'through'},
-        {n:'Sweden',f:'🇸🇪',pts:4,w:1,d:1,l:1,gf:3,ga:3,st:'through'},
-        {n:'4th (eliminated)',f:'',pts:0,w:0,d:0,l:3,gf:0,ga:0,st:'out'},
+        {n:'Netherlands',f:'🇳🇱',pts:7,st:'through'},
+        {n:'Japan',f:'🇯🇵',pts:6,st:'through'},
+        {n:'Sweden',f:'🇸🇪',pts:4,st:'through'},
+        {n:'4th (out)',f:'',pts:0,st:'out'},
       ]},
       { name:'G', teams:[
-        {n:'France / Norway',f:'🇫🇷🇳🇴',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'France / Norway',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Senegal',f:'🇸🇳',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
-        {n:'Iraq',f:'🇮🇶',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
+        {n:'France / Norway',f:'🇫🇷🇳🇴',pts:'?',st:'tbc'},
+        {n:'France / Norway',f:'',pts:'?',st:'tbc'},
+        {n:'Senegal',f:'🇸🇳',pts:0,st:'out'},
+        {n:'Iraq',f:'🇮🇶',pts:0,st:'out'},
       ]},
       { name:'H', teams:[
-        {n:'England / Ghana / Croatia',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'England / Ghana / Croatia',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'England / Ghana / Croatia',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Panama',f:'🇵🇦',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
+        {n:'England/Ghana/Croatia',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',pts:'?',st:'tbc'},
+        {n:'England/Ghana/Croatia',f:'',pts:'?',st:'tbc'},
+        {n:'England/Ghana/Croatia',f:'',pts:'?',st:'tbc'},
+        {n:'Panama',f:'🇵🇦',pts:0,st:'out'},
       ]},
       { name:'I', teams:[
-        {n:'TBC — Deciding today',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'TBC — Deciding today',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'TBC',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'TBC (eliminated)',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'out'},
+        {n:'TBC — Deciding today',f:'',pts:'?',st:'tbc'},
+        {n:'TBC — Deciding today',f:'',pts:'?',st:'tbc'},
+        {n:'TBC',f:'',pts:'?',st:'tbc'},
+        {n:'TBC (out)',f:'',pts:0,st:'out'},
       ]},
       { name:'J', teams:[
-        {n:'Spain / Uruguay',f:'🇪🇸',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Spain / Uruguay',f:'🇺🇾',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Cape Verde',f:'🇨🇻',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
-        {n:'Saudi Arabia',f:'🇸🇦',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
+        {n:'Spain / Uruguay',f:'🇪🇸',pts:'?',st:'tbc'},
+        {n:'Spain / Uruguay',f:'🇺🇾',pts:'?',st:'tbc'},
+        {n:'Cape Verde',f:'🇨🇻',pts:0,st:'out'},
+        {n:'Saudi Arabia',f:'🇸🇦',pts:0,st:'out'},
       ]},
       { name:'K', teams:[
-        {n:'Portugal / Colombia',f:'🇵🇹',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Portugal / Colombia',f:'🇨🇴',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'TBC',f:'',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Uzbekistan',f:'🇺🇿',pts:0,w:0,d:0,l:3,gf:0,ga:0,st:'out'},
+        {n:'Portugal / Colombia',f:'🇵🇹',pts:'?',st:'tbc'},
+        {n:'Portugal / Colombia',f:'🇨🇴',pts:'?',st:'tbc'},
+        {n:'TBC',f:'',pts:'?',st:'tbc'},
+        {n:'Uzbekistan',f:'🇺🇿',pts:0,st:'out'},
       ]},
       { name:'L', teams:[
-        {n:'Argentina',f:'🇦🇷',pts:6,w:2,d:0,l:0,gf:5,ga:0,st:'through'},
-        {n:'Austria / Algeria',f:'🇦🇹',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Austria / Algeria',f:'🇩🇿',pts:'—',w:'-',d:'-',l:'-',gf:'-',ga:'-',st:'tbc'},
-        {n:'Jordan',f:'🇯🇴',pts:0,w:0,d:0,l:2,gf:0,ga:0,st:'out'},
+        {n:'Argentina',f:'🇦🇷',pts:6,st:'through'},
+        {n:'Austria / Algeria',f:'🇦🇹',pts:'?',st:'tbc'},
+        {n:'Austria / Algeria',f:'🇩🇿',pts:'?',st:'tbc'},
+        {n:'Jordan',f:'🇯🇴',pts:0,st:'out'},
       ]},
     ];
 
     const SCORERS = [
-      {name:'Lionel Messi',team:'Argentina',f:'🇦🇷',goals:5,wc_total:18,note:'ALL-TIME WC RECORD: 18 GOALS'},
-      {name:'Vinícius Júnior',team:'Brazil',f:'🇧🇷',goals:4,wc_total:4,note:''},
-      {name:'Kylian Mbappé',team:'France',f:'🇫🇷',goals:4,wc_total:16,note:'Equals Klose\'s former all-time record (16)'},
-      {name:'Erling Haaland',team:'Norway',f:'🇳🇴',goals:4,wc_total:4,note:'Norway\'s greatest ever WC scorer'},
-      {name:'Cristiano Ronaldo',team:'Portugal',f:'🇵🇹',goals:3,wc_total:9,note:''},
-      {name:'Romelu Lukaku',team:'Belgium',f:'🇧🇪',goals:3,wc_total:5,note:''},
-      {name:'Bukayo Saka',team:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',goals:2,wc_total:2,note:''},
-      {name:'Julian Álvarez',team:'Argentina',f:'🇦🇷',goals:2,wc_total:3,note:''},
+      {n:'Lionel Messi',t:'Argentina',f:'🇦🇷',g:5,wc:18,note:'ALL-TIME WC RECORD'},
+      {n:'Vinícius Júnior',t:'Brazil',f:'🇧🇷',g:4,wc:4,note:''},
+      {n:'Kylian Mbappé',t:'France',f:'🇫🇷',g:4,wc:16,note:'Equals Klose (former record)'},
+      {n:'Erling Haaland',t:'Norway',f:'🇳🇴',g:4,wc:4,note:"Norway's greatest WC scorer"},
+      {n:'Cristiano Ronaldo',t:'Portugal',f:'🇵🇹',g:3,wc:9,note:''},
+      {n:'Romelu Lukaku',t:'Belgium',f:'🇧🇪',g:3,wc:5,note:''},
+      {n:'Bukayo Saka',t:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',g:2,wc:2,note:''},
+      {n:'Julian Álvarez',t:'Argentina',f:'🇦🇷',g:2,wc:3,note:''},
     ];
 
     const RECORDS = [
-      {num:'18',who:'Lionel Messi 🇦🇷',label:'All-time World Cup goals. Breaks Miroslav Klose\'s record of 16 set in Brazil 2014.'},
-      {num:'28',who:'Lionel Messi 🇦🇷',label:'World Cup appearances — the all-time record across all editions of the tournament.'},
-      {num:'48',who:'FIFA 2026',label:'Teams in this World Cup — the largest in history. Up from 32 teams in Qatar 2022.'},
-      {num:'#1st',who:'South Africa 🇿🇦',label:'Time South Africa have reached the knockout stage in World Cup history. A historic moment.'},
+      {num:'18',who:'Lionel Messi 🇦🇷',label:"All-time World Cup goals. Breaks Klose's record of 16 (Brazil 2014)."},
+      {num:'28',who:'Lionel Messi 🇦🇷',label:'World Cup appearances — the all-time record across all tournaments.'},
+      {num:'48',who:'FIFA 2026',label:'Teams in this World Cup. Largest ever — up from 32 in Qatar 2022.'},
+      {num:'1st',who:'South Africa 🇿🇦',label:'First time South Africa have ever reached the knockout stage.'},
     ];
 
     const FACTS_EN = [
-      {icon:'⚽',text:'Messi has scored more World Cup goals since turning 35 (12) than Harry Kane, Cristiano Ronaldo, or Diego Maradona scored across their ENTIRE World Cup careers.',highlight:true},
-      {icon:'📊',text:'Messi is only the 3rd player in history to score in 6 consecutive World Cup games — after Just Fontaine (1958) and Jairzinho (1970).'},
-      {icon:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',text:'Scotland are at the World Cup for the first time since 1998 — ending a 28-year wait. They were drawn into the same group as Brazil and Morocco.'},
-      {icon:'🇲🇦',text:'Morocco reached the 2022 World Cup semi-finals as Africa\'s first ever semifinalist. Now they\'re back in the knockout stages for a second straight tournament.'},
-      {icon:'🌎',text:'This is the first World Cup with 3 host nations. USA is co-hosting for the first time since 1994 — when Bebeto\'s cradle celebration became iconic.'},
-      {icon:'🇳🇴',text:'Erling Haaland\'s 4 goals have already surpassed Norway\'s best-ever performance at a single World Cup. Norway last played at a World Cup in 1998.'},
+      "⚽ Messi has scored more WC goals since turning 35 (12) than Harry Kane, Ronaldo, or Maradona scored in their ENTIRE World Cup careers.",
+      "📊 Messi is only the 3rd player to score in 6 consecutive WC games — after Fontaine (1958) and Jairzinho (1970).",
+      "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotland at a World Cup for the first time since 1998 — 28 years! Drawn in the same group as Brazil and Morocco.",
+      "🇲🇦 Morocco reached the 2022 semi-finals as Africa's first-ever semifinalist. Back in the knockouts again for 2026.",
+      "🌎 First World Cup with 3 host nations. USA hosting for the first time since 1994 — Bebeto's cradle celebration was in that one.",
+      "🇳🇴 Haaland's 4 goals already surpass Norway's single-tournament record. Norway last played at a World Cup in 1998.",
     ];
 
     const FACTS_ES = [
-      {icon:'⚽',text:'Messi ha marcado más goles mundialistas desde los 35 años (12) que Kane, Ronaldo o Maradona en toda su carrera en Copas del Mundo.',highlight:true},
-      {icon:'📊',text:'Messi es solo el 3° jugador de la historia en marcar en 6 partidos mundialistas consecutivos — tras Fontaine (1958) y Jairzinho (1970).'},
-      {icon:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',text:'Escocia está en el Mundial por primera vez desde 1998, terminando una espera de 28 años. Le tocó el mismo grupo que Brasil y Marruecos.'},
-      {icon:'🇲🇦',text:'Marruecos llegó a semifinales en 2022, siendo el primer semifinalista africano de la historia. Ahora repite en la fase eliminatoria.'},
-      {icon:'🌎',text:'Este es el primer Mundial con 3 países anfitriones. EE.UU. co-organiza por primera vez desde 1994, cuando la celebración de la cuna de Bebeto se hizo icónica.'},
-      {icon:'🇳🇴',text:'Los 4 goles de Haaland ya superan la mejor actuación de Noruega en un solo Mundial. Noruega no participaba en un Mundial desde 1998.'},
+      "⚽ Messi marcó más goles mundialistas desde los 35 (12) que Kane, Ronaldo o Maradona en toda su carrera mundialista.",
+      "📊 Messi es solo el 3° jugador en marcar en 6 juegos consecutivos del Mundial — tras Fontaine (1958) y Jairzinho (1970).",
+      "🏴󠁧󠁢󠁳󠁣󠁴󠁿 Escocia en el Mundial por primera vez desde 1998 — ¡28 años! En el mismo grupo que Brasil y Marruecos.",
+      "🇲🇦 Marruecos llegó a semis en 2022, primer semifinalista africano. De nuevo en octavos en 2026.",
+      "🌎 Primer Mundial con 3 países anfitriones. EE.UU. como sede por primera vez desde 1994.",
+      "🇳🇴 Los 4 goles de Haaland ya superan el récord noruego en un solo torneo. Noruega no jugaba un Mundial desde 1998.",
     ];
 
-    const HOST_FACTS = [
-      {icon:'🇺🇸',text:'<strong>United States</strong> — 11 venues including MetLife (NY), SoFi (LA), AT&T (Dallas), Lumen Field (Seattle), Levi\'s (San Francisco). Hosting the Final.'},
-      {icon:'🇨🇦',text:'<strong>Canada</strong> — 3 venues: BC Place (Vancouver), BMO Field (Toronto), Stade de Montréal. First World Cup as host for Canada.'},
-      {icon:'🇲🇽',text:'<strong>Mexico</strong> — 3 venues: Estadio Akron (Guadalajara), Estadio BBVA (Monterrey), Estadio Azteca (Mexico City). First country to host 3 World Cups.'},
+    const HOST_EN = [
+      "🇺🇸 USA — 11 venues. MetLife (NJ), SoFi (LA), AT&T (Dallas), Lumen (Seattle), Levi's (SF). Hosts the Final (July 19).",
+      "🇨🇦 Canada — 3 venues: BC Place (Vancouver), BMO Field (Toronto), Stade de Montréal. First World Cup as host.",
+      "🇲🇽 Mexico — 3 venues: Estadio Akron (Guadalajara), BBVA (Monterrey), Estadio Azteca (Mexico City). First country to host 3 World Cups.",
+    ];
+    const HOST_ES = [
+      "🇺🇸 EE.UU. — 11 estadios. MetLife (NJ), SoFi (LA), AT&T (Dallas), Lumen (Seattle), Levi's (SF). Sede de la Final.",
+      "🇨🇦 Canadá — 3 estadios: BC Place (Vancouver), BMO Field (Toronto), Stade de Montréal. Primer Mundial como anfitrión.",
+      "🇲🇽 México — 3 estadios: Estadio Akron (Guadalajara), BBVA (Monterrey), Azteca (Ciudad de México). Primer país que organiza 3 Mundiales.",
     ];
 
-    const HOST_FACTS_ES = [
-      {icon:'🇺🇸',text:'<strong>Estados Unidos</strong> — 11 estadios incluyendo MetLife (NY), SoFi (LA), AT&T (Dallas), Lumen Field (Seattle), Levi\'s (San Francisco). Sede de la Final.'},
-      {icon:'🇨🇦',text:'<strong>Canadá</strong> — 3 estadios: BC Place (Vancouver), BMO Field (Toronto), Stade de Montréal. Primer Mundial como anfitrión para Canadá.'},
-      {icon:'🇲🇽',text:'<strong>México</strong> — 3 estadios: Estadio Akron (Guadalajara), Estadio BBVA (Monterrey), Estadio Azteca (Ciudad de México). Primer país en organizar 3 Copas del Mundo.'},
-    ];
-
-    const TICKER_EN = [
-      '★ Messi breaks all-time World Cup record with 18 goals — surpassing Klose\'s 16',
-      '★ South Africa qualify for knockouts for the FIRST TIME in history',
-      '★ Mbappé equals former record with 16 all-time World Cup goals',
-      '★ Round of 32 begins June 28 — South Africa vs Canada opens the knockout stage',
-      '★ First ever 48-team World Cup — 3 host nations: USA, Canada, Mexico',
-      '★ Scotland at the World Cup for the first time since 1998',
-      '★ Morocco back in the knockout stage — were semi-finalists in Qatar 2022',
-      '★ Erling Haaland writing Norway World Cup history with 4 goals',
-      '★ Brazil vs Japan confirmed — June 30, 8:00 AEST — NRG Stadium, Houston',
-      '★ Netherlands vs Morocco confirmed — June 30, 16:00 AEST — Guadalajara',
-      '★ USA face Bosnia & Herzegovina on July 2, 15:00 AEST',
-      '★ The World Cup Final: MetLife Stadium, New Jersey — July 19, 2026',
-    ];
-
-    const TICKER_ES = [
-      '★ Messi bate el récord histórico con 18 goles mundialistas — supera los 16 de Klose',
-      '★ Sudáfrica clasifica a octavos por PRIMERA VEZ en su historia',
-      '★ Mbappé iguala el anterior récord con 16 goles históricos en Mundiales',
-      '★ Los octavos comienzan el 28 de junio — Sudáfrica vs Canadá abre la fase eliminatoria',
-      '★ Primer Mundial de 48 equipos — 3 países anfitriones: EE.UU., Canadá, México',
-      '★ Escocia en el Mundial por primera vez desde 1998',
-      '★ Marruecos de nuevo en octavos — fueron semifinalistas en Qatar 2022',
-      '★ Erling Haaland escribiendo la historia mundialista de Noruega con 4 goles',
-      '★ Brasil vs Japón confirmado — 30 jun, 8:00 AEST — NRG Stadium, Houston',
-      '★ Países Bajos vs Marruecos confirmado — 30 jun, 16:00 AEST — Guadalajara',
-      '★ EE.UU. vs Bosnia y Herzegovina el 2 jul, 15:00 AEST',
-      '★ La Final del Mundial: MetLife Stadium, Nueva Jersey — 19 julio 2026',
+    // ─── TEAM STATS (ESPN match data + Soccergraph market values + WorldSoccerTalk managers) ──
+    const TEAM_STATS = [
+      { n:'Mexico',         f:'🇲🇽', mgr:'Javier Aguirre',          stadium:'Estadio Azteca, Mexico City',         market:164.6, poss:50, shots:35, sot:13, yc:2, rc:1, gf:6, ga:0 },
+      { n:'South Africa',   f:'🇿🇦', mgr:'Hugo Broos (BEL)',         stadium:'FNB Stadium, Johannesburg',           market:55,    poss:44, shots:33, sot:10, yc:6, rc:2, gf:2, ga:3 },
+      { n:'Switzerland',    f:'🇨🇭', mgr:'Murat Yakin',              stadium:'Wankdorf Stadion, Bern',              market:281.7, poss:62, shots:45, sot:18, yc:3, rc:0, gf:7, ga:3 },
+      { n:'Canada',         f:'🇨🇦', mgr:'Jesse Marsch (USA)',        stadium:'BMO Field, Toronto',                  market:185,   poss:62, shots:58, sot:21, yc:5, rc:0, gf:8, ga:3 },
+      { n:'Bosnia & Herz.', f:'🇧🇦', mgr:'Sergej Barbarez',          stadium:'Bilino Polje, Zenica',                market:120,   poss:44, shots:27, sot:11, yc:7, rc:1, gf:5, ga:6 },
+      { n:'Brazil',         f:'🇧🇷', mgr:'Carlo Ancelotti (ITA)',    stadium:'Estádio Maracanã, Rio de Janeiro',    market:1135,  poss:54, shots:41, sot:19, yc:5, rc:0, gf:7, ga:1 },
+      { n:'Morocco',        f:'🇲🇦', mgr:'Mohamed Ouahbi',           stadium:'Stade Mohammed V, Casablanca',        market:318.1, poss:59, shots:48, sot:16, yc:1, rc:0, gf:6, ga:3 },
+      { n:'USA',            f:'🇺🇸', mgr:'Mauricio Pochettino (ARG)',stadium:'Rose Bowl, Los Angeles',              market:270.2, poss:60, shots:44, sot:15, yc:4, rc:0, gf:8, ga:4 },
+      { n:'Australia',      f:'🇦🇺', mgr:'Tony Popovic',             stadium:'Accor Stadium, Sydney',               market:41.25, poss:41, shots:26, sot:11, yc:5, rc:0, gf:2, ga:2 },
+      { n:'Germany',        f:'🇩🇪', mgr:'Julian Nagelsmann',        stadium:'Allianz Arena, Munich',               market:775,   poss:62, shots:53, sot:22, yc:1, rc:0, gf:10,ga:4 },
+      { n:'Ivory Coast',    f:'🇨🇮', mgr:'Emerse Faé',               stadium:'St. Alassane Ouattara, Abidjan',     market:180,   poss:53, shots:28, sot:10, yc:2, rc:0, gf:4, ga:2 },
+      { n:'Netherlands',    f:'🇳🇱', mgr:'Ronald Koeman',            stadium:'Johan Cruyff Arena, Amsterdam',       market:671.7, poss:61, shots:30, sot:14, yc:0, rc:0, gf:10,ga:4 },
+      { n:'Japan',          f:'🇯🇵', mgr:'Hajime Moriyasu',          stadium:'Japan National Stadium, Tokyo',       market:284.75,poss:57, shots:19, sot:8,  yc:1, rc:0, gf:7, ga:3 },
+      { n:'Sweden',         f:'🇸🇪', mgr:'Graham Potter (ENG)',       stadium:'Friends Arena, Stockholm',            market:170,   poss:48, shots:27, sot:13, yc:4, rc:0, gf:7, ga:7 },
+      { n:'Argentina',      f:'🇦🇷', mgr:'Lionel Scaloni',           stadium:'Est. Monumental, Buenos Aires',       market:820.7, poss:51, shots:22, sot:11, yc:2, rc:0, gf:5, ga:0 },
     ];
 
     const STATS = [
-      {num:'48',label:'TEAMS'},
-      {num:'104',label:'TOTAL MATCHES'},
-      {num:'32',label:'IN KNOCKOUTS'},
-      {num:'16',label:'R32 FIXTURES'},
-      {num:'18',label:'MESSI GOALS (ALL-TIME)'},
-      {num:'3',label:'HOST NATIONS'},
-      {num:'16',label:'VENUES'},
-      {num:'Jul 19',label:'FINAL DATE'},
+      {n:'48',l:'TEAMS'},
+      {n:'104',l:'TOTAL MATCHES'},
+      {n:'32',l:'IN KNOCKOUTS'},
+      {n:'16',l:'R32 FIXTURES'},
+      {n:'18',l:'MESSI ALL-TIME WC GOALS'},
+      {n:'3',l:'HOST NATIONS'},
+      {n:'16',l:'VENUES'},
+      {n:'Jul 19',l:'FINAL DATE'},
+    ];
+
+    const TICKER_EN = [
+      '★ Messi breaks all-time WC record: 18 goals, surpassing Klose\'s 16',
+      '  ·  ',
+      '★ South Africa qualify for knockouts for the FIRST TIME in history',
+      '  ·  ',
+      '★ Mbappé equals former record with 16 all-time WC goals',
+      '  ·  ',
+      '★ Round of 32 begins June 28 — South Africa vs Canada opens the knockout stage',
+      '  ·  ',
+      '★ First ever 48-team World Cup across USA, Canada & Mexico',
+      '  ·  ',
+      '★ Scotland at the World Cup for the first time since 1998',
+      '  ·  ',
+      '★ Morocco back in knockouts — were SEMI-FINALISTS in Qatar 2022',
+      '  ·  ',
+      '★ Haaland writing Norway World Cup history: 4 goals and counting',
+      '  ·  ',
+      '★ Brazil vs Japan: Tue 30 Jun 08:00 AEST · NRG Stadium Houston',
+      '  ·  ',
+      '★ Netherlands vs Morocco: Tue 30 Jun 16:00 AEST · Guadalajara',
+      '  ·  ',
+      '★ World Cup Final: MetLife Stadium, New Jersey — 19 July 2026',
+      '  ·  ',
+    ];
+
+    const TICKER_ES = [
+      '★ Messi bate el récord histórico: 18 goles mundialistas, supera los 16 de Klose',
+      '  ·  ',
+      '★ Sudáfrica clasifica a octavos por PRIMERA VEZ en su historia',
+      '  ·  ',
+      '★ Mbappé iguala el anterior récord con 16 goles mundialistas históricos',
+      '  ·  ',
+      '★ Los octavos comienzan el 28 jun — Sudáfrica vs Canadá abre la eliminatoria',
+      '  ·  ',
+      '★ Primer Mundial de 48 equipos en EE.UU., Canadá y México',
+      '  ·  ',
+      '★ Escocia en el Mundial por primera vez desde 1998',
+      '  ·  ',
+      '★ Marruecos de nuevo en octavos — fueron SEMIFINALISTAS en Qatar 2022',
+      '  ·  ',
+      '★ Haaland escribiendo la historia mundialista de Noruega: 4 goles',
+      '  ·  ',
+      '★ Brasil vs Japón: Mar 30 jun 08:00 AEST · NRG Stadium Houston',
+      '  ·  ',
     ];
 
     const T = {
       en: {
-        title:'FIFA WORLD CUP 2026', sub:'USA · CANADA · MEXICO', tz:'MELBOURNE AEST',
-        live:'LIVE', r32:'ROUND OF 32 — KNOCKOUT STAGE',
-        aestNote:'All kick-off times in Melbourne AEST · Last group matches: 26-27 Jun',
-        refresh:'Refresh', bkTitle:'KNOCKOUT BRACKET — PATH TO THE FINAL',
-        grpTitle:'GROUP STAGE STANDINGS — ALL 12 GROUPS',
-        grpMeta:'Top 2 per group + 8 best 3rd-place teams advance · ✓ = Through · ? = Deciding today',
+        title:'FIFA WORLD CUP 2026 — Live Dashboard',
+        live:'LIVE', live2:'LIVE', tz:'Melbourne AEST:',
+        refresh:'Refresh',
+        r32:'ROUND OF 32 — KNOCKOUT STAGE',
+        aestNote:'All kick-off times Melbourne AEST · Last group matches: 26–27 Jun',
+        bkTitle:'KNOCKOUT BRACKET — PATH TO THE FINAL',
+        grpTitle:'GROUP STAGE — ALL 12 GROUPS',
+        grpMeta:'Highlighted = qualified · Top 2 per group + 8 best 3rd-place teams advance',
         gbTitle:'GOLDEN BOOT RACE',
-        gbMeta:'Top scorers after group stage · Records as of 26 June 2026',
-        recTitle:'RECORDS BROKEN IN 2026', factsTitle:'FUN FACTS',
-        statsTitle:'TOURNAMENT OVERVIEW', nationsTitle:'HOST NATIONS',
-        confirmed:'CONFIRMED', partial:'TEAMS TBC', tbc:'TBC',
-        vs:'vs', goals:'goals',
+        gbMeta:'Top scorers after group stage · 26 June 2026',
+        recTitle:'RECORDS BROKEN IN 2026',
+        factsTitle:'FUN FACTS',
+        statsTitle:'TOURNAMENT OVERVIEW',
+        nationsTitle:'HOST NATIONS',
+        statusR32:'Round of 32 begins 28 Jun',
+        confirmed:'CONFIRMED ✓', partial:'RIVAL TBC', tbc:'TBC',
+        vs:'vs', goals:'Goals', alltime:'All-time WC', note:'Note',
+        player:'Player', team:'Team',
+        allDates:'All dates',
         dates:['Jun29','Jun30','Jul1','Jul2','Jul3','Jul4'],
         dateLabels:['29 Jun','30 Jun','1 Jul','2 Jul','3 Jul','4 Jul'],
-        allDates:'All dates',
-        filterPrefix:'',
-        tabs:['FIXTURES','BRACKET','GROUPS','GOLDEN BOOT','TOURNAMENT STATS'],
-        langNext:'ES',
+        tabs:['📅 Fixtures','🏆 Bracket','📊 Groups','⚽ Golden Boot','📈 Stats'],
+        langNext:'ES 🌐',
         ticker: TICKER_EN,
         facts: FACTS_EN,
-        hostFacts: HOST_FACTS,
+        host: HOST_EN,
+        bkFinal:'🏆 FINAL — MetLife Stadium, New Jersey · 19 July 2026',
+        bkSf1:'SEMI-FINAL 1 (TBC)',
+        bkSf2:'SEMI-FINAL 2 (TBC)',
+        bkQf1:'QUARTER-FINAL 1 (TBC)',
+        bkQf2:'QUARTER-FINAL 2 (TBC)',
+        bkQf3:'QUARTER-FINAL 3 (TBC)',
+        bkQf4:'QUARTER-FINAL 4 (TBC)',
+        bkR16:'Round of 16 Match (TBC)',
+        bkClick:'(click ▶ to expand)',
       },
       es: {
-        title:'COPA MUNDIAL FIFA 2026', sub:'EE.UU. · CANADÁ · MÉXICO', tz:'MELBOURNE AEST',
-        live:'EN VIVO', r32:'OCTAVOS DE FINAL',
-        aestNote:'Todos los horarios en Melbourne AEST · Últimos partidos de grupo: 26-27 jun',
-        refresh:'Actualizar', bkTitle:'CUADRO — CAMINO A LA FINAL',
-        grpTitle:'CLASIFICACIÓN DE GRUPOS — LOS 12 GRUPOS',
-        grpMeta:'Top 2 por grupo + los 8 mejores terceros avanzan · ✓ = Clasificado · ? = Decidiendo hoy',
+        title:'COPA MUNDIAL FIFA 2026 — Panel en Vivo',
+        live:'EN VIVO', live2:'EN VIVO', tz:'Melbourne AEST:',
+        refresh:'Actualizar',
+        r32:'OCTAVOS DE FINAL',
+        aestNote:'Todos los horarios en Melbourne AEST · Últimos partidos de grupos: 26–27 jun',
+        bkTitle:'CUADRO ELIMINATORIO — CAMINO A LA FINAL',
+        grpTitle:'FASE DE GRUPOS — LOS 12 GRUPOS',
+        grpMeta:'Resaltado = clasificado · Top 2 por grupo + 8 mejores terceros avanzan',
         gbTitle:'CARRERA POR LA BOTA DE ORO',
-        gbMeta:'Máximos goleadores tras la fase de grupos · Récords al 26 de junio de 2026',
-        recTitle:'RÉCORDS ROTOS EN 2026', factsTitle:'DATOS CURIOSOS',
-        statsTitle:'RESUMEN DEL TORNEO', nationsTitle:'PAÍSES ANFITRIONES',
-        confirmed:'CONFIRMADO', partial:'RIVAL POR DEFINIR', tbc:'POR CONFIRMAR',
-        vs:'vs', goals:'goles',
+        gbMeta:'Máximos goleadores tras la fase de grupos · 26 de junio de 2026',
+        recTitle:'RÉCORDS ROTOS EN 2026',
+        factsTitle:'DATOS CURIOSOS',
+        statsTitle:'RESUMEN DEL TORNEO',
+        nationsTitle:'PAÍSES ANFITRIONES',
+        statusR32:'Los octavos comienzan el 28 jun',
+        confirmed:'CONFIRMADO ✓', partial:'RIVAL POR DEFINIR', tbc:'POR CONFIRMAR',
+        vs:'vs', goals:'Goles', alltime:'Goles hist. WC', note:'Nota',
+        player:'Jugador', team:'Equipo',
+        allDates:'Todas',
         dates:['Jun29','Jun30','Jul1','Jul2','Jul3','Jul4'],
         dateLabels:['29 Jun','30 Jun','1 Jul','2 Jul','3 Jul','4 Jul'],
-        allDates:'Todos',
-        filterPrefix:'',
-        tabs:['PARTIDOS','CUADRO','GRUPOS','BOTA DE ORO','ESTADÍSTICAS'],
-        langNext:'EN',
+        tabs:['📅 Partidos','🏆 Cuadro','📊 Grupos','⚽ Bota de Oro','📈 Stats'],
+        langNext:'EN 🌐',
         ticker: TICKER_ES,
         facts: FACTS_ES,
-        hostFacts: HOST_FACTS_ES,
+        host: HOST_ES,
+        bkFinal:'🏆 FINAL — MetLife Stadium, Nueva Jersey · 19 julio 2026',
+        bkSf1:'SEMIFINAL 1 (POR DEFINIR)',
+        bkSf2:'SEMIFINAL 2 (POR DEFINIR)',
+        bkQf1:'CUARTOS 1 (POR DEFINIR)',
+        bkQf2:'CUARTOS 2 (POR DEFINIR)',
+        bkQf3:'CUARTOS 3 (POR DEFINIR)',
+        bkQf4:'CUARTOS 4 (POR DEFINIR)',
+        bkR16:'Partido Octavos (POR DEFINIR)',
+        bkClick:'(clic en ▶ para expandir)',
       }
     };
 
-    // ─────────────────────────────────────────
-    //  STATE
-    // ─────────────────────────────────────────
+    // ─── STATE ──────────────────────────────────────────────────────────────
     let lang = 'en';
     let activeFilter = 'all';
-    let lastUpdated = new Date();
+    let activeTab = 0;
 
-    // ─────────────────────────────────────────
-    //  CLOCK
-    // ─────────────────────────────────────────
+    // ─── CLOCK ─────────────────────────────────────────────────────────────
     function updateClock() {
+      const mel = new Intl.DateTimeFormat('en-AU', {
+        timeZone:'Australia/Melbourne',
+        hour:'2-digit', minute:'2-digit', second:'2-digit', hour12:false
+      }).format(new Date());
+      const short = mel.slice(0,5);
       const el = document.getElementById('liveClock');
-      if (!el) return;
-      const fmt = new Intl.DateTimeFormat('en-AU', {
-        timeZone: 'Australia/Melbourne',
-        hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
-      });
-      el.textContent = fmt.format(new Date());
+      const sc = document.getElementById('status-clock');
+      const tk = document.getElementById('taskbarClock');
+      if (el) el.textContent = mel;
+      if (sc) sc.textContent = 'Melbourne: ' + mel;
+      if (tk) tk.textContent = short;
     }
     setInterval(updateClock, 1000);
     updateClock();
 
-    // ─────────────────────────────────────────
-    //  TABS
-    // ─────────────────────────────────────────
-    function switchTab(btn) {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('pane-' + btn.dataset.tab).classList.add('active');
+    // ─── TABS ───────────────────────────────────────────────────────────────
+    function switchTab(idx) {
+      activeTab = idx;
+      const tabs = document.querySelectorAll('#tabMenu [role="tab"]');
+      const panes = document.querySelectorAll('[role="tabpanel"]');
+      tabs.forEach((t, i) => t.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
+      panes.forEach((p, i) => p.classList.toggle('active', i === idx));
     }
 
-    // ─────────────────────────────────────────
-    //  LANG TOGGLE
-    // ─────────────────────────────────────────
+    // ─── LANG ───────────────────────────────────────────────────────────────
     function toggleLang() {
       lang = lang === 'en' ? 'es' : 'en';
       renderAll();
     }
 
-    // ─────────────────────────────────────────
-    //  FILTER
-    // ─────────────────────────────────────────
+    // ─── FILTER ─────────────────────────────────────────────────────────────
     function setFilter(key) {
       activeFilter = key;
+      renderFilters();
       renderMatches();
-      document.querySelectorAll('.filter-chip').forEach(c => {
-        c.classList.toggle('active', c.dataset.key === key);
-      });
     }
 
-    // ─────────────────────────────────────────
-    //  REFRESH (live data attempt)
-    // ─────────────────────────────────────────
+    // ─── REFRESH ────────────────────────────────────────────────────────────
     async function refreshData(btn) {
-      btn.classList.add('spinning');
+      const orig = btn.innerHTML;
+      btn.innerHTML = '⏳ Refreshing…';
+      btn.disabled = true;
       try {
-        const res = await fetch(
-          'https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard',
-          { signal: AbortSignal.timeout(5000) }
-        );
-        if (res.ok) {
-          lastUpdated = new Date();
-        }
-      } catch (e) {
-        // API unavailable — silent fail, static data stays
-      }
-      setTimeout(() => btn.classList.remove('spinning'), 800);
+        await fetch('https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard',
+          { signal: AbortSignal.timeout(5000) });
+      } catch(_) {}
+      setTimeout(() => { btn.innerHTML = orig; btn.disabled = false; }, 900);
     }
 
-    // ─────────────────────────────────────────
-    //  RENDER HELPERS
-    // ─────────────────────────────────────────
-    function isUnknown(name) {
-      return !name || name.includes('TBC') || name.includes('winner') ||
-             name.includes('runner') || name.includes('place') ||
-             name.includes('Group') || name === 'TBC';
+    // ─── HELPERS ────────────────────────────────────────────────────────────
+    function unk(s) {
+      return !s || s.includes('TBC') || s.includes('winner') ||
+             s.includes('runner') || s.includes('place') || s.includes('Group');
     }
 
+    // ─── RENDER FUNCTIONS ────────────────────────────────────────────────────
     function renderTicker() {
-      const t = T[lang];
-      const items = [...t.ticker, ...t.ticker];
-      document.getElementById('tickerTrack').innerHTML = items
-        .map(i => `<span class="ticker-item">${i}</span>`)
-        .join('<span class="ticker-item ticker-sep">·</span>');
-    }
-
-    function renderMatches() {
-      const t = T[lang];
-      const grid = document.getElementById('matchesGrid');
-      const filtered = activeFilter === 'all'
-        ? MATCHES
-        : MATCHES.filter(m => m.dateKey === activeFilter);
-
-      if (!filtered.length) {
-        grid.innerHTML = `<p style="color:var(--text-sec);grid-column:1/-1;padding:20px 0">No matches on this date.</p>`;
-        return;
-      }
-
-      grid.innerHTML = filtered.map(m => {
-        const hUnk = isUnknown(m.home.n);
-        const aUnk = isUnknown(m.away.n);
-        const dateStr = lang === 'es' ? m.date_es : m.date_en;
-        const statusLabel = m.status === 'confirmed' ? t.confirmed : m.status === 'partial' ? t.partial : t.tbc;
-        const statusClass = m.status === 'confirmed' ? 's-confirmed' : m.status === 'partial' ? 's-partial' : 's-tbc';
-        const hFlag = m.home.f ? `<span class="team-flag">${m.home.f}</span>` : `<span class="team-flag" style="opacity:.2">🏳️</span>`;
-        const aFlag = m.away.f ? `<span class="team-flag">${m.away.f}</span>` : `<span class="team-flag" style="opacity:.2">🏳️</span>`;
-        return `
-        <div class="match-card ${m.status}">
-          <div class="mc-top">
-            <span class="mc-num">${m.id}</span>
-            <span class="status-badge ${statusClass}">${statusLabel}</span>
-          </div>
-          <div class="mc-teams">
-            <div class="mc-team home">
-              ${hFlag}
-              <span class="team-name ${hUnk ? 'unknown' : ''}">${m.home.n}</span>
-            </div>
-            <div class="mc-vs-block">
-              <span class="mc-vs">${t.vs}</span>
-            </div>
-            <div class="mc-team away">
-              ${aFlag}
-              <span class="team-name ${aUnk ? 'unknown' : ''}">${m.away.n}</span>
-            </div>
-          </div>
-          <div class="mc-bottom">
-            <div class="mc-time-block">
-              <div class="mc-time">${m.time}</div>
-              <div class="mc-time-meta">${dateStr} · AEST</div>
-            </div>
-            <div class="mc-venue-block">
-              <div class="mc-venue">${m.venue}</div>
-            </div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function renderFilters() {
-      const t = T[lang];
-      const bar = document.getElementById('filterBar');
-      let html = `<button class="filter-chip ${activeFilter==='all'?'active':''}" data-key="all" onclick="setFilter('all')">${t.allDates}</button>`;
-      t.dates.forEach((d, i) => {
-        html += `<button class="filter-chip ${activeFilter===d?'active':''}" data-key="${d}" onclick="setFilter('${d}')">${t.dateLabels[i]}</button>`;
-      });
-      bar.innerHTML = html;
-    }
-
-    function renderGroups() {
-      const t = T[lang];
-      const grid = document.getElementById('groupsGrid');
-      grid.innerHTML = GROUPS.map(g => {
-        const teams = g.teams.map((tm, i) => {
-          const pos = ['1st','2nd','3rd','4th'][i];
-          const nameCls = tm.st === 'out' ? 'eliminated' : tm.st === 'tbc' ? 'tbc-team' : '';
-          const icon = tm.st === 'through'
-            ? `<span class="gt-thru">✓</span>`
-            : tm.st === 'tbc'
-            ? `<span class="gt-tbc">?</span>`
-            : '';
-          const ptsDisplay = tm.pts === '—' || tm.pts === '-' ? '—' : tm.pts;
-          return `
-            <div class="group-team">
-              <span class="gt-pos">${pos}</span>
-              <span class="gt-flag">${tm.f || ''}</span>
-              <span class="gt-name ${nameCls}">${tm.n}</span>
-              ${icon}
-              <span class="gt-pts">${ptsDisplay}</span>
-            </div>`;
-        }).join('');
-        return `
-          <div class="group-card">
-            <div class="group-hd">
-              GROUP ${g.name}
-              <span class="group-hd-meta">Pts</span>
-            </div>
-            ${teams}
-          </div>`;
-      }).join('');
-    }
-
-    function renderScorers() {
-      const t = T[lang];
-      const maxGoals = SCORERS[0].goals;
-      const list = document.getElementById('scorersList');
-      list.innerHTML = SCORERS.map((s, i) => {
-        const rankClass = i === 0 ? 'r1' : i === 1 ? 'r2' : i === 2 ? 'r3' : '';
-        const barWidth = Math.round((s.goals / maxGoals) * 100);
-        return `
-        <div class="scorer-row">
-          <span class="scorer-rank ${rankClass}">${i+1}</span>
-          <span class="scorer-flag">${s.f}</span>
-          <div class="scorer-info">
-            <div class="scorer-name">${s.name}</div>
-            <div class="scorer-team">${s.team} · ${s.wc_total} all-time WC goals</div>
-            ${s.note ? `<div class="scorer-note">${s.note}</div>` : ''}
-            <div class="goal-bar-wrap">
-              <div class="goal-bar" style="width:${barWidth}%"></div>
-            </div>
-          </div>
-          <div class="scorer-goals-block">
-            <div class="scorer-goals">${s.goals}</div>
-            <div class="scorer-goals-label">${t.goals}</div>
-          </div>
-        </div>`;
-      }).join('');
-    }
-
-    function renderRecords() {
-      document.getElementById('recordsGrid').innerHTML = RECORDS.map(r => `
-        <div class="rec-card">
-          <div class="rec-num">${r.num}</div>
-          <div class="rec-who">${r.who}</div>
-          <div class="rec-label">${r.label}</div>
-        </div>`).join('');
-    }
-
-    function renderFacts() {
-      const facts = lang === 'es' ? FACTS_ES : FACTS_EN;
-      document.getElementById('factsGrid').innerHTML = facts.map(f => `
-        <div class="fact-card ${f.highlight ? 'highlight' : ''}">
-          <span class="fact-icon">${f.icon}</span>
-          <span class="fact-text">${f.text}</span>
-        </div>`).join('');
-    }
-
-    function renderBracket() {
-      const t = T[lang];
-      const rounds = [
-        { label: 'ROUND OF 32', matches: [
-          [{n:'🇿🇦 S. Africa'},{n:'🇨🇦 Canada'}],
-          [{n:'🇧🇷 Brazil'},{n:'🇯🇵 Japan'}],
-          [{n:'🇩🇪 Germany'},{n:'TBC (3rd)',tbc:true}],
-          [{n:'🇳🇱 Netherlands'},{n:'🇲🇦 Morocco'}],
-          [{n:'🇨🇮 Ivory Coast'},{n:'TBC',tbc:true}],
-          [{n:'TBC',tbc:true},{n:'TBC',tbc:true}],
-          [{n:'🇲🇽 Mexico'},{n:'TBC (3rd)',tbc:true}],
-          [{n:'TBC',tbc:true},{n:'TBC',tbc:true}],
-        ]},
-        { label: 'ROUND OF 16', matches: [
-          [{n:'Winner M74',tbc:true},{n:'Winner M75',tbc:true}],
-          [{n:'Winner M76',tbc:true},{n:'Winner M77',tbc:true}],
-          [{n:'Winner M78',tbc:true},{n:'Winner M79',tbc:true}],
-          [{n:'Winner M80',tbc:true},{n:'Winner M81',tbc:true}],
-        ]},
-        { label: 'QUARTER-FINAL', matches: [
-          [{n:'TBC',tbc:true},{n:'TBC',tbc:true}],
-          [{n:'TBC',tbc:true},{n:'TBC',tbc:true}],
-        ]},
-        { label: 'SEMI-FINAL', matches: [
-          [{n:'TBC',tbc:true},{n:'TBC',tbc:true}],
-        ]},
-        { label: 'FINAL', matches: [
-          [{n:'🏆 CHAMPION',champion:true}],
-        ]},
-      ];
-
-      document.getElementById('bracketCols').innerHTML = rounds.map(r => `
-        <div class="bk-col">
-          <div class="bk-col-hd">${r.label}</div>
-          <div class="bk-matches">
-            ${r.matches.map(m => `
-              <div class="bk-match ${m[0].champion ? 'final-match' : ''}">
-                ${m.map(tm => `
-                  <div class="bk-team ${tm.champion ? 'champion' : tm.tbc ? 'tbc-slot' : 'known'}">
-                    ${tm.n}
-                  </div>`).join('')}
-              </div>
-              <div class="bk-spacer"></div>
-            `).join('')}
-          </div>
-        </div>`).join('');
-    }
-
-    function renderStats() {
-      document.getElementById('statsOverview').innerHTML = STATS.map(s => `
-        <div class="stat-card">
-          <div class="stat-num">${s.num}</div>
-          <div class="stat-label">${s.label}</div>
-        </div>`).join('');
-      const hostFacts = lang === 'es' ? HOST_FACTS_ES : HOST_FACTS;
-      document.getElementById('hostFacts').innerHTML = hostFacts.map(f => `
-        <div class="fact-card">
-          <span class="fact-icon">${f.icon}</span>
-          <span class="fact-text">${f.text}</span>
-        </div>`).join('');
+      document.getElementById('ticker').textContent = T[lang].ticker.join(' ');
     }
 
     function renderStaticText() {
       const t = T[lang];
-      document.getElementById('txt-title').textContent = t.title;
-      document.getElementById('txt-sub').textContent = t.sub;
-      document.getElementById('txt-tz').textContent = t.tz;
+      document.title = t.title;
+      document.getElementById('langBtn').textContent = t.langNext;
+      document.getElementById('txt-refresh').textContent = t.refresh;
       document.getElementById('txt-live').textContent = t.live;
+      document.getElementById('txt-live2').textContent = t.live2;
+      document.getElementById('txt-tz').textContent = t.tz;
       document.getElementById('txt-r32').textContent = t.r32;
       document.getElementById('txt-aest-note').textContent = t.aestNote;
-      document.getElementById('txt-refresh').textContent = t.refresh;
       document.getElementById('txt-bk-title').textContent = t.bkTitle;
       document.getElementById('txt-grp-title').textContent = t.grpTitle;
       document.getElementById('txt-grp-meta').textContent = t.grpMeta;
@@ -1182,11 +833,240 @@
       document.getElementById('txt-facts-title').textContent = t.factsTitle;
       document.getElementById('txt-stats-title').textContent = t.statsTitle;
       document.getElementById('txt-nations-title').textContent = t.nationsTitle;
-      document.getElementById('langBtn').textContent = t.langNext;
-      // Update tab labels
-      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-        btn.textContent = t.tabs[i];
+      document.getElementById('status-r32').textContent = t.statusR32;
+      document.getElementById('th-player').textContent = t.player;
+      document.getElementById('th-team').textContent = t.team;
+      document.getElementById('th-goals').textContent = t.goals;
+      document.getElementById('th-alltime').textContent = t.alltime;
+      document.getElementById('th-bar').textContent = '---';
+      // Tabs
+      document.querySelectorAll('#tabMenu [role="tab"] a').forEach((a, i) => {
+        a.textContent = t.tabs[i];
       });
+    }
+
+    function renderFilters() {
+      const t = T[lang];
+      let html = `<button onclick="setFilter('all')" class="${activeFilter==='all'?'filter-active':''}">${t.allDates}</button>`;
+      t.dates.forEach((d, i) => {
+        html += `<button onclick="setFilter('${d}')" class="${activeFilter===d?'filter-active':''}">${t.dateLabels[i]}</button>`;
+      });
+      document.getElementById('filterBar').innerHTML = html;
+    }
+
+    function renderMatches() {
+      const t = T[lang];
+      const list = activeFilter === 'all' ? MATCHES : MATCHES.filter(m => m.dk === activeFilter);
+      if (!list.length) {
+        document.getElementById('matchesGrid').innerHTML =
+          '<p style="font-size:11px;color:#808080;grid-column:1/-1">No matches on this date.</p>';
+        return;
+      }
+      document.getElementById('matchesGrid').innerHTML = list.map(m => {
+        const hUnk = unk(m.home.n), aUnk = unk(m.away.n);
+        const dateStr = lang === 'es' ? m.date_es : m.date_en;
+        const isConfirmed = m.status === 'confirmed';
+        const statusLabel = m.status === 'confirmed' ? t.confirmed : m.status === 'partial' ? t.partial : t.tbc;
+        const statusCls = 'badge-' + m.status;
+        return `
+        <div class="window" style="margin:0">
+          <div class="title-bar${isConfirmed ? '' : ' inactive'}">
+            <div class="title-bar-text" style="font-size:11px">${m.id} · ${m.venue}</div>
+          </div>
+          <div class="window-body" style="padding:6px 8px">
+            <div class="match-teams-row">
+              <div class="match-team home${hUnk?' unknown':''}">
+                ${m.home.f ? m.home.f+' ' : ''}${m.home.n}
+              </div>
+              <div class="match-vs">${t.vs}</div>
+              <div class="match-team away${aUnk?' unknown':''}">
+                ${m.away.n}${m.away.f ? ' '+m.away.f : ''}
+              </div>
+            </div>
+            <div class="match-foot">
+              <div>
+                <div class="match-time">${m.time}</div>
+                <div class="match-aest">AEST</div>
+              </div>
+              <div class="match-right">
+                <div class="match-date">${dateStr}</div>
+                <div class="${statusCls}">${statusLabel}</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    function renderGroups() {
+      document.getElementById('groupsGrid').innerHTML = GROUPS.map(g => `
+        <fieldset style="margin:0;padding:6px 8px">
+          <legend style="font-weight:bold;font-size:11px">Group ${g.name}</legend>
+          <div class="sunken-panel" style="height:auto;overflow:hidden">
+            <table class="interactive group-table">
+              <thead><tr><th>Team</th><th>Pts</th></tr></thead>
+              <tbody>
+                ${g.teams.map(tm => {
+                  const hi = tm.st === 'through' ? 'class="highlighted"' : '';
+                  const suf = tm.st === 'through' ? ' ✓' : tm.st === 'tbc' ? ' ?' : '';
+                  const style = tm.st === 'out' ? ' style="color:#808080;text-decoration:line-through"' : '';
+                  return `<tr ${hi}><td${style}>${tm.f ? tm.f+' ':''}<span>${tm.n}</span>${suf}</td><td>${tm.pts}</td></tr>`;
+                }).join('')}
+              </tbody>
+            </table>
+          </div>
+        </fieldset>`).join('');
+    }
+
+    function renderScorers() {
+      const t = T[lang];
+      const max = SCORERS[0].g;
+      document.getElementById('scorersBody').innerHTML = SCORERS.map((s, i) => {
+        const pct = Math.round((s.g / max) * 100);
+        const rowCls = i === 0 ? 'class="highlighted"' : '';
+        return `<tr ${rowCls}>
+          <td><b>${i+1}</b></td>
+          <td>${s.f} ${s.n}</td>
+          <td>${s.t}</td>
+          <td><b>${s.g}</b></td>
+          <td>${s.wc}</td>
+          <td class="goal-bar-cell">
+            <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${pct}%"></div></div>
+            ${s.note ? `<div style="font-size:9px;color:navy;white-space:nowrap">${s.note}</div>` : ''}
+          </td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderRecords() {
+      document.getElementById('recordsGrid').innerHTML = RECORDS.map(r => `
+        <fieldset style="margin:0;padding:8px 10px">
+          <legend style="font-size:10px">${r.who}</legend>
+          <div class="rec-num">${r.num}</div>
+          <div class="rec-label">${r.label}</div>
+        </fieldset>`).join('');
+    }
+
+    function renderFacts() {
+      const facts = lang === 'es' ? FACTS_ES : FACTS_EN;
+      document.getElementById('factsList').innerHTML =
+        facts.map(f => `<li>${f}</li>`).join('');
+    }
+
+    function renderBracket() {
+      const L = MATCHES.slice(0, 8);
+      const R = MATCHES.slice(8, 16);
+
+      const SHORT = {
+        'South Africa':'S.Africa','Bosnia & Herzegovina':'Bosnia',
+        'Netherlands':'Neth.','Ivory Coast':'C.d\'Ivoire',
+      };
+      function sn(nm) {
+        if (!nm || unk(nm)) return '?';
+        return SHORT[nm] || (nm.length > 11 ? nm.split(' ')[0] : nm);
+      }
+
+      function mCell(m) {
+        const cls = m.status === 'confirmed' ? 'bk-conf' : m.status === 'partial' ? 'bk-part' : 'bk-tbc-m';
+        const hU = unk(m.home.n), aU = unk(m.away.n);
+        const dateShort = (lang==='es' ? m.date_es : m.date_en).replace(/^[A-Za-záéíóúñ]+\s/,'');
+        return `<td class="bk-r32 ${cls}">
+          <span class="bk-id">${m.id}</span>
+          <span class="bk-tm${hU?' bk-unk':''}">${hU?'?':(m.home.f?m.home.f+' ':'')+sn(m.home.n)}</span>
+          <span class="bk-vsep">vs</span>
+          <span class="bk-tm${aU?' bk-unk':''}">${aU?'?':sn(m.away.n)+(m.away.f?' '+m.away.f:'')}</span>
+          <span class="bk-dt">${m.time} · ${dateShort}</span>
+        </td>`;
+      }
+
+      function lCell(label, sub, rs, extraCls='') {
+        return `<td rowspan="${rs}" class="bk-later ${extraCls}"><b>${label}</b><span class="bk-sub">${sub}</span></td>`;
+      }
+
+      // Build 8-row table (1 row per R32 match pair position)
+      // Left: M74-M81, Right: M82-M89 (top to bottom)
+      const r16L = [
+        ['R16-A','W(M74)·W(M75)'],['R16-B','W(M76)·W(M77)'],
+        ['R16-C','W(M78)·W(M79)'],['R16-D','W(M80)·W(M81)'],
+      ];
+      const r16R = [
+        ['R16-E','W(M82)·W(M83)'],['R16-F','W(M84)·W(M85)'],
+        ['R16-G','W(M86)·W(M87)'],['R16-H','W(M88)·W(M89)'],
+      ];
+      const qfL = [['QF-A','W(R16-A)·W(R16-B)'],['QF-B','W(R16-C)·W(R16-D)']];
+      const qfR = [['QF-C','W(R16-E)·W(R16-F)'],['QF-D','W(R16-G)·W(R16-H)']];
+
+      let rows = '';
+      for (let i = 0; i < 8; i++) {
+        rows += '<tr>';
+        rows += mCell(L[i]);
+        if (i % 2 === 0) rows += lCell(...r16L[i/2], 2);
+        if (i % 4 === 0) rows += lCell(...qfL[i/4], 4, 'bk-qf-cell');
+        if (i === 0)     rows += lCell('SF-1','W(QF-A)·W(QF-B)', 8, 'bk-sf-cell');
+        if (i === 0)     rows += `<td rowspan="8" class="bk-final-td">🏆<br><b>FINAL</b><small>19 Jul 2026<br>MetLife NJ</small></td>`;
+        if (i === 0)     rows += lCell('SF-2','W(QF-C)·W(QF-D)', 8, 'bk-sf-cell');
+        if (i % 4 === 0) rows += lCell(...qfR[i/4], 4, 'bk-qf-cell');
+        if (i % 2 === 0) rows += lCell(...r16R[i/2], 2);
+        rows += mCell(R[i]);
+        rows += '</tr>';
+      }
+
+      document.getElementById('bracketWrap').innerHTML = `
+        <table class="bracket-table">
+          <thead><tr>
+            <th>R32 (Left)</th><th>R16</th><th>QF</th><th>SF</th>
+            <th>FINAL</th>
+            <th>SF</th><th>QF</th><th>R16</th><th>R32 (Right)</th>
+          </tr></thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <p class="bracket-note">Green border = confirmed · Amber = one team TBC · Grey = both TBC · Scroll right on mobile</p>`;
+    }
+
+    function renderStats() {
+      document.getElementById('statsGrid').innerHTML = STATS.map(s => `
+        <div class="stat-box">
+          <div class="stat-num">${s.n}</div>
+          <div class="stat-lbl">${s.l}</div>
+        </div>`).join('');
+      const host = lang === 'es' ? HOST_ES : HOST_EN;
+      document.getElementById('hostList').innerHTML = host.map(h => `<li style="font-size:11px;margin-bottom:6px;line-height:1.5">${h}</li>`).join('');
+    }
+
+    function renderTeamStats() {
+      const maxMkt   = Math.max(...TEAM_STATS.map(t => t.market));
+      const maxShots = Math.max(...TEAM_STATS.map(t => t.shots));
+      document.getElementById('txt-ts-title').textContent =
+        lang === 'es' ? 'RENDIMIENTO EQUIPOS R32 — FASE DE GRUPOS' : 'R32 TEAM PERFORMANCE — GROUP STAGE';
+      document.getElementById('teamStatsGrid').innerHTML = TEAM_STATS.map(t => {
+        const mktPct   = Math.round(t.market / maxMkt * 100);
+        const shotsPct = Math.round(t.shots  / maxShots * 100);
+        const ycTxt = t.yc > 0 ? `<span class="ts-yc">🟨 ×${t.yc}</span>` : '';
+        const rcTxt = t.rc > 0 ? `<span class="ts-rc">🟥 ×${t.rc}</span>` : '';
+        return `
+          <div class="ts-card">
+            <fieldset>
+              <legend style="font-size:12px;font-weight:bold">${t.f} ${t.n}</legend>
+              <div class="ts-info">👨‍💼 ${t.mgr}</div>
+              <div class="ts-info">🏟 ${t.stadium}</div>
+              <div class="ts-info">💰 Market value: <b>€${t.market}M</b></div>
+              <div class="ts-bar-bg"><div class="ts-bar-fill ts-bar-market" style="width:${mktPct}%"></div></div>
+              <div class="ts-row" style="margin-top:5px">
+                <span class="ts-stat">Possession <b>${t.poss}%</b></span>
+              </div>
+              <div class="ts-bar-bg"><div class="ts-bar-fill ts-bar-poss" style="width:${t.poss}%"></div></div>
+              <div class="ts-row">
+                <span class="ts-stat">Shots <b>${t.shots}</b></span>
+              </div>
+              <div class="ts-bar-bg"><div class="ts-bar-fill ts-bar-shots" style="width:${shotsPct}%"></div></div>
+              <div class="ts-row">
+                <span class="ts-stat">On target <b>${t.sot}</b></span>
+                <span class="ts-stat">Goals <b>${t.gf}–${t.ga}</b></span>
+                ${ycTxt}${rcTxt}
+              </div>
+            </fieldset>
+          </div>`;
+      }).join('');
     }
 
     function renderAll() {
@@ -1200,11 +1080,10 @@
       renderFacts();
       renderBracket();
       renderStats();
+      renderTeamStats();
     }
 
-    // ─────────────────────────────────────────
-    //  INIT
-    // ─────────────────────────────────────────
+    // ─── INIT ───────────────────────────────────────────────────────────────
     renderAll();
   </script>
 </body>
