@@ -292,12 +292,77 @@
     .sunken-panel { overflow: auto; }
     .section-hd { font-weight: bold; font-size: 13px; border-bottom: 1px solid #808080; margin-bottom: 10px; padding-bottom: 4px; }
 
+    /* ── Mobile ≤620px ─────────────────────── */
     @media (max-width: 620px) {
       body { padding: 4px 4px 44px; }
-      .groups-grid { grid-template-columns: 1fr 1fr; }
-      .matches-grid { grid-template-columns: 1fr; }
-      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+
+      /* Title bar: prevent long text overflowing */
+      .title-bar-text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: calc(100vw - 130px);
+      }
+
+      /* Toolbar: allow wrap, hide tz label */
+      .toolbar { flex-wrap: wrap; gap: 3px 5px; }
       .toolbar span[id="txt-tz"] { display: none; }
+
+      /* Tabs: horizontal scroll instead of wrapping */
+      menu[role="tablist"] {
+        overflow-x: auto;
+        flex-wrap: nowrap !important;
+        scrollbar-width: none;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 0;
+      }
+      menu[role="tablist"]::-webkit-scrollbar { display: none; }
+      menu[role="tablist"] > li { flex-shrink: 0; }
+
+      /* Tab panel inner padding */
+      [role="tabpanel"] > .window-body { padding: 6px !important; }
+
+      /* Grids */
+      .matches-grid  { grid-template-columns: 1fr; }
+      .groups-grid   { grid-template-columns: 1fr 1fr; }
+      .records-grid  { grid-template-columns: 1fr 1fr; }
+      .stats-grid    { grid-template-columns: repeat(3, 1fr); }
+      .ts-grid       { grid-template-columns: 1fr; }
+
+      /* Group tables: fixed layout clips long team names */
+      .groups-grid fieldset { box-sizing: border-box; width: 100%; }
+      .groups-grid .sunken-panel { overflow: hidden; }
+      .group-table { table-layout: fixed; width: 100%; }
+      .group-table th:last-child,
+      .group-table td:last-child { width: 28px; white-space: nowrap; text-align: right; }
+      .group-table th:first-child,
+      .group-table td:first-child {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      /* Scorer: hide all-time WC and bar columns */
+      .scorer-table th:nth-child(5),
+      .scorer-table td:nth-child(5),
+      .scorer-table th:nth-child(6),
+      .scorer-table td:nth-child(6) { display: none; }
+
+      /* Taskbar: hide window label to save space */
+      .taskbar-task { display: none; }
+
+      /* Status bar: drop last field */
+      .status-bar .status-bar-field:last-child { display: none; }
+
+      /* Match time: slightly smaller */
+      .match-time { font-size: 18px; }
+    }
+
+    /* ── Very narrow ≤400px ─────────────────── */
+    @media (max-width: 400px) {
+      .groups-grid  { grid-template-columns: 1fr; }
+      .records-grid { grid-template-columns: 1fr; }
+      .stats-grid   { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
