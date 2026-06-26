@@ -8,6 +8,23 @@
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏆</text></svg>">
   <link rel="stylesheet" href="https://unpkg.com/98.css">
   <style>
+    /* ── Typography: Tahoma is the genuine Win98/2000 UI font ── */
+    /* Override 98.css "Pixelated MS Sans Serif" which renders blurry on modern screens */
+    *, *::before, *::after {
+      font-family: 'Tahoma', 'Verdana', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    .toolbar-clock, .match-time, #liveClock, #taskbarClock, .taskbar-clock-box {
+      font-family: 'Courier New', Courier, monospace !important;
+      letter-spacing: .02em;
+    }
+    /* Base size: 13px (98.css defaults to 11px which is too small on HiDPI) */
+    body, button, input, select, textarea {
+      font-size: 13px;
+    }
+
     /* ── Desktop ─────────────────────────────── */
     body {
       margin: 0;
@@ -40,7 +57,7 @@
       margin: 0 3px;
     }
     .toolbar-clock {
-      font-size: 11px;
+      font-size: 13px;
       font-weight: bold;
       font-family: monospace;
       font-variant-numeric: tabular-nums;
@@ -64,11 +81,11 @@
       gap: 6px;
       margin: 6px 0 10px;
     }
-    .match-team { flex: 1; font-size: 12px; font-weight: bold; line-height: 1.3; }
+    .match-team { flex: 1; font-size: 13px; font-weight: bold; line-height: 1.3; }
     .match-team.home { text-align: left; }
     .match-team.away { text-align: right; }
-    .match-team.unknown { font-weight: normal; color: #808080; font-style: italic; font-size: 11px; }
-    .match-vs { font-size: 10px; color: #808080; white-space: nowrap; }
+    .match-team.unknown { font-weight: normal; color: #808080; font-style: italic; font-size: 12px; }
+    .match-vs { font-size: 11px; color: #808080; white-space: nowrap; }
     .match-foot {
       display: flex;
       justify-content: space-between;
@@ -77,14 +94,14 @@
       padding-top: 6px;
       margin-top: 4px;
     }
-    .match-time { font-size: 20px; font-weight: bold; font-family: monospace; line-height: 1; }
-    .match-aest { font-size: 9px; color: #808080; }
+    .match-time { font-size: 22px; font-weight: bold; font-family: monospace; line-height: 1; }
+    .match-aest { font-size: 11px; color: #808080; }
     .match-right { text-align: right; }
-    .match-date { font-size: 10px; color: #404040; }
-    .match-venue { font-size: 10px; color: #808080; line-height: 1.3; max-width: 130px; }
-    .badge-confirmed { color: #006400; font-weight: bold; font-size: 9px; }
-    .badge-partial   { color: #804000; font-size: 9px; }
-    .badge-tbc       { color: #808080; font-size: 9px; }
+    .match-date { font-size: 12px; color: #404040; }
+    .match-venue { font-size: 11px; color: #808080; line-height: 1.3; max-width: 140px; }
+    .badge-confirmed { color: #006400; font-weight: bold; font-size: 11px; }
+    .badge-partial   { color: #804000; font-size: 11px; }
+    .badge-tbc       { color: #808080; font-size: 11px; }
 
     /* ── Groups grid ─────────────────────────── */
     .groups-grid {
@@ -93,14 +110,14 @@
       gap: 8px;
     }
     .groups-grid fieldset { margin: 0; }
-    .group-table { font-size: 11px; width: 100%; border-collapse: collapse; }
-    .group-table th { font-size: 10px; text-align: left; padding: 2px 4px; }
+    .group-table { font-size: 12px; width: 100%; border-collapse: collapse; }
+    .group-table th { font-size: 11px; text-align: left; padding: 2px 4px; }
     .group-table td { padding: 2px 4px; }
 
     /* ── Scorer table ────────────────────────── */
     .scorer-wrap { overflow-x: auto; }
-    .scorer-table { font-size: 11px; width: 100%; }
-    .scorer-table th, .scorer-table td { padding: 3px 6px; white-space: nowrap; }
+    .scorer-table { font-size: 12px; width: 100%; }
+    .scorer-table th, .scorer-table td { padding: 4px 8px; white-space: nowrap; }
     .goal-bar-cell { min-width: 80px; }
     .goal-bar-bg { height: 8px; background: #c0c0c0; border: 1px inset; }
     .goal-bar-fill { height: 8px; background: navy; }
@@ -113,12 +130,12 @@
     }
     .records-grid fieldset { margin: 0; }
     .rec-num { font-size: 28px; font-weight: bold; color: navy; }
-    .rec-who { font-size: 11px; font-weight: bold; margin: 3px 0; }
-    .rec-label { font-size: 10px; color: #404040; line-height: 1.4; }
+    .rec-who { font-size: 12px; font-weight: bold; margin: 3px 0; }
+    .rec-label { font-size: 11px; color: #404040; line-height: 1.5; }
 
     /* ── Facts list ──────────────────────────── */
     .facts-list { padding: 0; margin: 0; }
-    .facts-list li { font-size: 11px; margin-bottom: 6px; line-height: 1.5; padding-left: 4px; }
+    .facts-list li { font-size: 12px; margin-bottom: 8px; line-height: 1.6; padding-left: 4px; }
 
     /* ── Stats grid ──────────────────────────── */
     .stats-grid {
@@ -134,7 +151,7 @@
       text-align: center;
     }
     .stat-num { font-size: 20px; font-weight: bold; color: navy; }
-    .stat-lbl { font-size: 9px; color: #404040; margin-top: 3px; letter-spacing: .5px; }
+    .stat-lbl { font-size: 11px; color: #404040; margin-top: 3px; letter-spacing: .4px; }
 
     /* ── Filter row ──────────────────────────── */
     .filter-row {
@@ -143,7 +160,7 @@
       flex-wrap: wrap;
       margin-bottom: 10px;
     }
-    .filter-row button { font-size: 10px; padding: 1px 8px; }
+    .filter-row button { font-size: 12px; padding: 2px 10px; }
     .filter-active {
       box-shadow: inset -1px -1px #fff, inset 1px 1px #0a0a0a, inset -2px -2px #dfdfdf, inset 2px 2px grey !important;
       background: #c0c0c0 !important;
@@ -153,19 +170,19 @@
     .bracket-outer { overflow-x: auto; margin: 0 -4px; padding: 0 4px 4px; }
     .bracket-table {
       border-collapse: collapse;
-      font-size: 10px;
-      min-width: 820px;
+      font-size: 12px;
+      min-width: 860px;
       width: 100%;
       table-layout: fixed;
     }
     .bracket-table thead th {
-      font-size: 9px;
+      font-size: 11px;
       font-weight: bold;
       text-transform: uppercase;
       letter-spacing: .4px;
       background: navy;
       color: #fff;
-      padding: 3px 4px;
+      padding: 4px 4px;
       text-align: center;
       border: 1px solid #000060;
     }
@@ -183,21 +200,21 @@
     .bk-r32.bk-conf   { border-left: 3px solid #006400; }
     .bk-r32.bk-part   { border-left: 3px solid #804000; background:#d8ccba; }
     .bk-r32.bk-tbc-m  { border-left: 3px solid #888; background: #d4d0c8; }
-    .bk-id   { display:block; font-size:8px; color:#606060; line-height:1.2; }
-    .bk-tm   { display:block; font-size:9px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .bk-id   { display:block; font-size:10px; color:#606060; line-height:1.3; }
+    .bk-tm   { display:block; font-size:11px; font-weight:bold; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
     .bk-unk  { font-weight:normal; color:#808080; font-style:italic; }
-    .bk-vsep { display:block; font-size:8px; color:#a0a0a0; line-height:1.1; }
-    .bk-dt   { display:block; font-size:8px; color:navy; margin-top:1px; }
+    .bk-vsep { display:block; font-size:10px; color:#a0a0a0; line-height:1.2; }
+    .bk-dt   { display:block; font-size:10px; color:navy; margin-top:2px; }
     /* Later-round cells */
     .bk-later {
       width: 8%;
-      font-size: 9px;
+      font-size: 11px;
       font-weight: bold;
       color: #202060;
       background: #c8ccd8;
       border: 1px solid #9090a8;
     }
-    .bk-later .bk-sub { font-size: 8px; font-weight:normal; color:#606080; display:block; margin-top:2px; line-height:1.3; }
+    .bk-later .bk-sub { font-size: 10px; font-weight:normal; color:#606080; display:block; margin-top:3px; line-height:1.4; }
     .bk-qf-cell  { background: #bcc4d8; }
     .bk-sf-cell  { background: #b0bcd4; width:7%; }
     .bk-final-td {
@@ -205,11 +222,11 @@
       color: #ffff00;
       border: 2px solid gold !important;
       font-weight: bold;
-      font-size: 11px;
+      font-size: 13px;
       width: 9%;
     }
-    .bk-final-td small { display:block; font-size:8px; color:#c0c0ff; margin-top:3px; }
-    .bracket-note { font-size:10px; color:#606060; margin-top:6px; }
+    .bk-final-td small { display:block; font-size:11px; color:#c0c0ff; margin-top:4px; }
+    .bracket-note { font-size:11px; color:#606060; margin-top:8px; }
 
     /* ── Team stats cards ────────────────────── */
     .ts-grid {
@@ -219,13 +236,13 @@
       margin-top: 10px;
     }
     .ts-card fieldset { margin: 0; padding: 5px 8px; }
-    .ts-info { font-size: 10px; color: #404040; line-height: 1.5; margin-bottom: 3px; }
+    .ts-info { font-size: 12px; color: #404040; line-height: 1.6; margin-bottom: 3px; }
     .ts-bar-bg { height: 7px; background: #c0c0c0; border: 1px inset; margin: 1px 0 4px; }
     .ts-bar-fill { height: 7px; }
     .ts-bar-market { background: #008080; }
     .ts-bar-poss   { background: navy; }
     .ts-bar-shots  { background: #804000; }
-    .ts-row { display:flex; gap:8px; font-size:10px; flex-wrap:wrap; margin-top:4px; align-items:center; }
+    .ts-row { display:flex; gap:8px; font-size:12px; flex-wrap:wrap; margin-top:5px; align-items:center; }
     .ts-stat { white-space:nowrap; }
     .ts-yc { color:#b8860b; font-weight:bold; }
     .ts-rc { color:#cc0000; font-weight:bold; }
@@ -248,7 +265,7 @@
       display: flex;
       align-items: center;
       gap: 4px;
-      font-size: 11px;
+      font-size: 12px;
       font-weight: bold;
       min-height: 22px;
       padding: 1px 8px;
@@ -259,7 +276,7 @@
     }
     .taskbar-clock-box {
       margin-left: auto;
-      font-size: 11px;
+      font-size: 12px;
       font-family: monospace;
       font-variant-numeric: tabular-nums;
       border: 2px solid;
@@ -273,7 +290,7 @@
     /* ── Misc ────────────────────────────────── */
     .section-sep { height: 14px; }
     .sunken-panel { overflow: auto; }
-    .section-hd { font-weight: bold; font-size: 11px; border-bottom: 1px solid #808080; margin-bottom: 8px; padding-bottom: 3px; }
+    .section-hd { font-weight: bold; font-size: 13px; border-bottom: 1px solid #808080; margin-bottom: 10px; padding-bottom: 4px; }
 
     @media (max-width: 620px) {
       body { padding: 4px 4px 44px; }
@@ -300,20 +317,20 @@
 
     <!-- Toolbar -->
     <div class="toolbar">
-      <button onclick="toggleLang()" id="langBtn" style="font-size:11px;min-height:20px">🌐 ES</button>
+      <button onclick="toggleLang()" id="langBtn" style="font-size:12px;min-height:22px">🌐 ES</button>
       <div class="toolbar-sep"></div>
-      <button onclick="refreshData(this)" id="refreshBtn" style="font-size:11px;min-height:20px">🔄 <span id="txt-refresh">Refresh</span></button>
+      <button onclick="refreshData(this)" id="refreshBtn" style="font-size:12px;min-height:22px">🔄 <span id="txt-refresh">Refresh</span></button>
       <div class="toolbar-sep"></div>
       <span class="live-dot">●</span>
-      <span id="txt-live" style="font-size:11px;font-weight:bold">LIVE</span>
+      <span id="txt-live" style="font-size:12px;font-weight:bold">LIVE</span>
       <div class="toolbar-sep"></div>
-      <span id="txt-tz" style="font-size:10px;color:#404040">Melbourne AEST:</span>
+      <span id="txt-tz" style="font-size:12px;color:#404040">Melbourne AEST:</span>
       <span id="liveClock" class="toolbar-clock">--:--:--</span>
     </div>
 
     <!-- Ticker marquee — authentic Win98 -->
     <marquee id="ticker" behavior="scroll" direction="left" scrollamount="3"
-      style="background:#000080;color:#ffff00;font-size:11px;padding:3px 0;display:block"></marquee>
+      style="background:#000080;color:#ffff00;font-size:13px;padding:4px 0;display:block"></marquee>
 
     <!-- Tabs + Panels -->
     <div class="window-body" style="padding-bottom:0;padding-top:10px">
@@ -329,8 +346,8 @@
       <!-- ── FIXTURES ── -->
       <div class="window active" role="tabpanel" id="pane-0">
         <div class="window-body">
-          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</p>
-          <p style="font-size:10px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Last group matches: 26–27 Jun</p>
+          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Last group matches: 26–27 Jun</p>
           <div class="filter-row" id="filterBar"></div>
           <div class="matches-grid" id="matchesGrid"></div>
         </div>
@@ -339,8 +356,8 @@
       <!-- ── BRACKET ── -->
       <div class="window" role="tabpanel" id="pane-1">
         <div class="window-body">
-          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-bk-title">KNOCKOUT BRACKET — PATH TO THE FINAL</p>
-          <p style="font-size:10px;color:#404040;margin-bottom:8px">MetLife Stadium, New Jersey · Final: 19 July 2026 · Read left→centre→right</p>
+          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-bk-title">KNOCKOUT BRACKET — PATH TO THE FINAL</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:8px">MetLife Stadium, New Jersey · Final: 19 July 2026 · Read left→centre→right</p>
           <div class="bracket-outer" id="bracketWrap"></div>
         </div>
       </div>
@@ -348,8 +365,8 @@
       <!-- ── GROUPS ── -->
       <div class="window" role="tabpanel" id="pane-2">
         <div class="window-body">
-          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-grp-title">GROUP STAGE — ALL 12 GROUPS</p>
-          <p style="font-size:10px;color:#404040;margin-bottom:10px" id="txt-grp-meta">Highlighted = qualified · Top 2 per group + 8 best 3rd-place teams advance</p>
+          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-grp-title">GROUP STAGE — ALL 12 GROUPS</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:10px" id="txt-grp-meta">Highlighted = qualified · Top 2 per group + 8 best 3rd-place teams advance</p>
           <div class="groups-grid" id="groupsGrid"></div>
         </div>
       </div>
@@ -357,8 +374,8 @@
       <!-- ── GOLDEN BOOT ── -->
       <div class="window" role="tabpanel" id="pane-3">
         <div class="window-body">
-          <p style="font-size:11px;font-weight:bold;margin-bottom:2px" id="txt-gb-title">GOLDEN BOOT RACE</p>
-          <p style="font-size:10px;color:#404040;margin-bottom:8px" id="txt-gb-meta">Top scorers after group stage · 26 June 2026</p>
+          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-gb-title">GOLDEN BOOT RACE</p>
+          <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-gb-meta">Top scorers after group stage · 26 June 2026</p>
 
           <div class="sunken-panel scorer-wrap" style="max-height:280px">
             <table class="interactive scorer-table">
@@ -389,13 +406,13 @@
       <!-- ── STATS ── -->
       <div class="window" role="tabpanel" id="pane-4">
         <div class="window-body">
-          <p style="font-size:11px;font-weight:bold;margin-bottom:10px" id="txt-stats-title">TOURNAMENT OVERVIEW</p>
+          <p style="font-size:13px;font-weight:bold;margin-bottom:10px" id="txt-stats-title">TOURNAMENT OVERVIEW</p>
           <div class="stats-grid" id="statsGrid"></div>
           <p class="section-hd" id="txt-nations-title">HOST NATIONS</p>
           <ul class="facts-list" id="hostList"></ul>
           <div class="section-sep"></div>
           <p class="section-hd" id="txt-ts-title">R32 TEAM PERFORMANCE — GROUP STAGE</p>
-          <p style="font-size:9px;color:#606060;margin-bottom:6px">Stats from ESPN · Market values from Soccergraph · Managers from WorldSoccerTalk · Possession/shots/cards averaged over 3 group matches</p>
+          <p style="font-size:11px;color:#606060;margin-bottom:6px">Stats from ESPN · Market values from Soccergraph · Managers from WorldSoccerTalk · Possession/shots/cards averaged over 3 group matches</p>
           <div class="ts-grid" id="teamStatsGrid"></div>
         </div>
       </div>
@@ -414,7 +431,7 @@
 
   <!-- ══ Taskbar ════════════════════════════════ -->
   <div id="taskbar">
-    <button class="default" style="font-size:11px;font-weight:bold;min-height:22px;padding:1px 10px">⊞ Start</button>
+    <button class="default" style="font-size:12px;font-weight:bold;min-height:24px;padding:1px 12px">⊞ Start</button>
     <div class="taskbar-task">🏆 FIFA World Cup 2026</div>
     <div class="taskbar-clock-box" id="taskbarClock">--:--</div>
   </div>
@@ -932,7 +949,7 @@
           <td>${s.wc}</td>
           <td class="goal-bar-cell">
             <div class="goal-bar-bg"><div class="goal-bar-fill" style="width:${pct}%"></div></div>
-            ${s.note ? `<div style="font-size:9px;color:navy;white-space:nowrap">${s.note}</div>` : ''}
+            ${s.note ? `<div style="font-size:11px;color:navy;white-space:nowrap">${s.note}</div>` : ''}
           </td>
         </tr>`;
       }).join('');
@@ -1046,7 +1063,7 @@
         return `
           <div class="ts-card">
             <fieldset>
-              <legend style="font-size:12px;font-weight:bold">${t.f} ${t.n}</legend>
+              <legend style="font-size:13px;font-weight:bold">${t.f} ${t.n}</legend>
               <div class="ts-info">👨‍💼 ${t.mgr}</div>
               <div class="ts-info">🏟 ${t.stadium}</div>
               <div class="ts-info">💰 Market value: <b>€${t.market}M</b></div>
