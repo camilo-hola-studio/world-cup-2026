@@ -251,6 +251,17 @@
     .badge-group { color: #004080; font-weight: bold; font-size: 11px; }
     .badge-live-now { color: #cc0000; font-weight: bold; font-size: 11px; }
 
+    /* ── Match fun fact ──────────────────────── */
+    .match-fact {
+      font-size: 11px;
+      color: #606060;
+      font-style: italic;
+      line-height: 1.4;
+      margin-top: 6px;
+      border-top: 1px dotted #c0c0c0;
+      padding-top: 5px;
+    }
+
     /* ── Misc ────────────────────────────────── */
     .section-sep { height: 14px; }
     .sunken-panel { overflow: auto; }
@@ -372,10 +383,13 @@
       <!-- ── FIXTURES ── -->
       <div class="window active" role="tabpanel" id="pane-0">
         <div class="window-body">
-          <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-gs-title">GROUP STAGE — FINAL MATCHDAY</p>
+          <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
+            <p style="font-size:13px;font-weight:bold;margin:0" id="txt-gs-title">GROUP STAGE — FINAL MATCHDAY</p>
+            <button id="groupToggleBtn" onclick="toggleGroupStage()" style="font-size:11px;padding:1px 8px">Hide Group Games</button>
+          </div>
           <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-gs-meta">All times Melbourne AEST · Simultaneous kickoffs per group</p>
           <div class="matches-grid" id="groupFinalGrid"></div>
-          <div class="section-sep"></div>
+          <div class="section-sep" id="gs-section-sep"></div>
           <p style="font-size:13px;font-weight:bold;margin-bottom:4px" id="txt-r32">ROUND OF 32 — KNOCKOUT STAGE</p>
           <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-aest-note">All kick-off times Melbourne AEST · Round of 32 begins 29 Jun</p>
           <div class="filter-row" id="filterBar"></div>
@@ -593,45 +607,57 @@
       // ── Group I · Jun 26 15:00 EDT → Jun 27 05:00 AEST ──
       { id:'M61', grp:'I', home:{n:'France',f:'🇫🇷'}, away:{n:'Norway',f:'🇳🇴'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'05:00',
-        venue:'Gillette Stadium, Foxborough' },
+        venue:'Gillette Stadium, Foxborough',
+        fact:"France and Norway have never met at a World Cup — between them, Mbappé and Haaland have scored 8 goals in this tournament alone." },
       { id:'M62', grp:'I', home:{n:'Senegal',f:'🇸🇳'}, away:{n:'Iraq',f:'🇮🇶'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'05:00',
-        venue:'BMO Field, Toronto' },
+        venue:'BMO Field, Toronto',
+        fact:"Senegal's 2002 group-stage win over defending champions France remains the greatest upset in African World Cup history." },
       // ── Group H · Jun 26 20:00 EDT → Jun 27 10:00 AEST ──
       { id:'M67', grp:'H', home:{n:'Uruguay',f:'🇺🇾'}, away:{n:'Spain',f:'🇪🇸'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'10:00',
-        venue:'Estadio Akron, Guadalajara' },
+        venue:'Estadio Akron, Guadalajara',
+        fact:"Spain's only World Cup title came in 2010 — a single Andrés Iniesta extra-time goal against the Netherlands in Johannesburg." },
       { id:'M68', grp:'H', home:{n:'Cape Verde',f:'🇨🇻'}, away:{n:'Saudi Arabia',f:'🇸🇦'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'10:00',
-        venue:'NRG Stadium, Houston' },
+        venue:'NRG Stadium, Houston',
+        fact:"Cape Verde draw most of their squad from the Portuguese and French diaspora — over 700,000 Cape Verdeans live abroad, outnumbering the home population." },
       // ── Group G · Jun 26 23:00 EDT → Jun 27 13:00 AEST ──
       { id:'M65', grp:'G', home:{n:'Egypt',f:'🇪🇬'}, away:{n:'Iran',f:'🇮🇷'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'13:00',
-        venue:'Lumen Field, Seattle' },
+        venue:'Lumen Field, Seattle',
+        fact:"Egypt last appeared at a World Cup in 1990; Iran have qualified six times since 1978 — neither nation has ever won a knockout stage match." },
       { id:'M66', grp:'G', home:{n:'New Zealand',f:'🇳🇿'}, away:{n:'Belgium',f:'🇧🇪'},
         date_en:'Fri 27 Jun', date_es:'Vie 27 Jun', time:'13:00',
-        venue:'BC Place, Vancouver' },
+        venue:'BC Place, Vancouver',
+        fact:"Belgium spent a record 1,592 consecutive days as FIFA's #1-ranked nation — yet their famed 'golden generation' never won a major title." },
       // ── Group L · Jun 27 17:00 EDT → Jun 28 07:00 AEST ──
       { id:'M63', grp:'L', home:{n:'Croatia',f:'🇭🇷'}, away:{n:'Ghana',f:'🇬🇭'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'07:00',
-        venue:'Lincoln Financial Field, Philadelphia' },
+        venue:'Lincoln Financial Field, Philadelphia',
+        fact:"Croatia finished 3rd at their 1998 World Cup debut and were runners-up in 2018 — an extraordinary record for a nation of just 3.9 million people." },
       { id:'M64', grp:'L', home:{n:'Panama',f:'🇵🇦'}, away:{n:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'07:00',
-        venue:'MetLife Stadium, New Jersey' },
+        venue:'MetLife Stadium, New Jersey',
+        fact:"Panama's World Cup debut in 2018 saw them beaten 6–1 by England — this 2026 rematch is only their second-ever World Cup meeting." },
       // ── Group K · Jun 27 19:30 EDT → Jun 28 09:30 AEST ──
       { id:'M69', grp:'K', home:{n:'Colombia',f:'🇨🇴'}, away:{n:'Portugal',f:'🇵🇹'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'09:30',
-        venue:'Hard Rock Stadium, Miami' },
+        venue:'Hard Rock Stadium, Miami',
+        fact:"James Rodríguez's 6-goal Golden Boot run at the 2014 World Cup is still the most explosive single-tournament emergence of the modern era." },
       { id:'M70', grp:'K', home:{n:'Congo DR',f:'🇨🇩'}, away:{n:'Uzbekistan',f:'🇺🇿'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'09:30',
-        venue:'Mercedes-Benz Stadium, Atlanta' },
+        venue:'Mercedes-Benz Stadium, Atlanta',
+        fact:"Congo DR (then Zaire) had a player sprint from a defensive wall and hoof away a free kick at the 1974 World Cup — one of football's most baffling moments." },
       // ── Group J · Jun 27 22:00 EDT → Jun 28 12:00 AEST ──
       { id:'M71', grp:'J', home:{n:'Algeria',f:'🇩🇿'}, away:{n:'Austria',f:'🇦🇹'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'12:00',
-        venue:'Arrowhead Stadium, Kansas City' },
+        venue:'Arrowhead Stadium, Kansas City',
+        fact:"Algeria's shock 2–1 win over West Germany in 1982 led to the 'Disgrace of Gijón' — Austria and West Germany then conspired in a 1–0 result to eliminate Algeria." },
       { id:'M72', grp:'J', home:{n:'Jordan',f:'🇯🇴'}, away:{n:'Argentina',f:'🇦🇷'},
         date_en:'Sat 28 Jun', date_es:'Sáb 28 Jun', time:'12:00',
-        venue:"AT&T Stadium, Arlington" },
+        venue:"AT&T Stadium, Arlington",
+        fact:"Jordan are making their first-ever World Cup appearance — they face defending champions Argentina and a Messi who has already set the all-time WC scoring record." },
     ];
 
     const SCORERS = [
@@ -842,6 +868,7 @@
     let lang = 'en';
     let activeFilter = 'all';
     let activeTab = 0;
+    let groupStageVisible = true;
 
     // ─── CLOCK ─────────────────────────────────────────────────────────────
     function updateClock() {
@@ -870,6 +897,16 @@
     function toggleLang() {
       lang = lang === 'en' ? 'es' : 'en';
       renderAll();
+    }
+
+    // ─── GROUP STAGE TOGGLE ─────────────────────────────────────────────────
+    function toggleGroupStage() {
+      groupStageVisible = !groupStageVisible;
+      const show = groupStageVisible;
+      document.getElementById('groupFinalGrid').style.display = show ? '' : 'none';
+      document.getElementById('txt-gs-meta').style.display = show ? '' : 'none';
+      document.getElementById('gs-section-sep').style.display = show ? '' : 'none';
+      document.getElementById('groupToggleBtn').textContent = show ? 'Hide Group Games' : 'Show Group Games';
     }
 
     // ─── FILTER ─────────────────────────────────────────────────────────────
@@ -969,6 +1006,7 @@
                 <div class="badge-group">Group ${m.grp}</div>
               </div>
             </div>
+            ${m.fact ? `<div class="match-fact">${m.fact}</div>` : ''}
           </div>
         </div>`;
       }).join('');
