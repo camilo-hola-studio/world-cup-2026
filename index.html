@@ -1244,6 +1244,15 @@
 
     // ─── INIT ───────────────────────────────────────────────────────────────
     renderAll();
+
+    // ─── AUTO-REFRESH AT MIDNIGHT AEST (UTC+10) ─────────────────────────────
+    (function scheduleAESTReload() {
+      const MS_DAY = 86400000;
+      const AEST_OFFSET_MS = 10 * 3600000; // UTC+10, fixed — no DST in Jun–Oct
+      const nowAEST = Date.now() + AEST_OFFSET_MS;
+      const msUntilMidnight = MS_DAY - (nowAEST % MS_DAY);
+      setTimeout(() => location.reload(), msUntilMidnight);
+    })();
   </script>
 </body>
 </html>
