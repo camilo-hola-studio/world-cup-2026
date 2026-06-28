@@ -385,7 +385,7 @@
         <div class="window-body">
           <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:4px">
             <p style="font-size:13px;font-weight:bold;margin:0" id="txt-gs-title">GROUP STAGE — FINAL MATCHDAY</p>
-            <button id="groupToggleBtn" onclick="toggleGroupStage()" style="font-size:11px;padding:1px 8px">Hide Group Games</button>
+            <button id="groupToggleBtn" onclick="toggleGroupStage()" style="font-size:11px;padding:1px 8px">&#9658; Group Phase Results</button>
           </div>
           <p style="font-size:12px;color:#404040;margin-bottom:8px" id="txt-gs-meta">All times Melbourne AEST · Simultaneous kickoffs per group</p>
           <div class="matches-grid" id="groupFinalGrid"></div>
@@ -478,59 +478,59 @@
     const MATCHES = [
       { id:'M74', home:{n:'South Africa',f:'🇿🇦'}, away:{n:'Canada',f:'🇨🇦'},
         date_en:'Mon 29 Jun', date_es:'Lun 29 Jun', time:'10:00',
-        venue:'SoFi Stadium, LA', status:'confirmed', dk:'Jun29' },
+        venue:'SoFi Stadium, Los Angeles', status:'confirmed', dk:'Jun29' },
       { id:'M75', home:{n:'Brazil',f:'🇧🇷'}, away:{n:'Japan',f:'🇯🇵'},
         date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'08:00',
         venue:'NRG Stadium, Houston', status:'confirmed', dk:'Jun30' },
-      { id:'M76', home:{n:'Germany',f:'🇩🇪'}, away:{n:'TBC (Best 3rd place)',f:''},
+      { id:'M76', home:{n:'Germany',f:'🇩🇪'}, away:{n:'Paraguay',f:'🇵🇾'},
         date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'11:30',
-        venue:'Gillette Stadium, Foxborough', status:'partial', dk:'Jun30' },
+        venue:'Gillette Stadium, Foxborough', status:'confirmed', dk:'Jun30' },
       { id:'M77', home:{n:'Netherlands',f:'🇳🇱'}, away:{n:'Morocco',f:'🇲🇦'},
         date_en:'Tue 30 Jun', date_es:'Mar 30 Jun', time:'16:00',
-        venue:'Estadio Akron, Guadalajara', status:'confirmed', dk:'Jun30' },
-      { id:'M78', home:{n:'Ivory Coast',f:'🇨🇮'}, away:{n:'TBC (Group I runner-up)',f:''},
+        venue:'BBVA Stadium, Guadalupe', status:'confirmed', dk:'Jun30' },
+      { id:'M78', home:{n:'Ivory Coast',f:'🇨🇮'}, away:{n:'Norway',f:'🇳🇴'},
         date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'08:00',
-        venue:'AT&T Stadium, Arlington', status:'partial', dk:'Jul1' },
-      { id:'M79', home:{n:'TBC (Group I winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
+        venue:'AT&T Stadium, Arlington', status:'confirmed', dk:'Jul1' },
+      { id:'M79', home:{n:'France',f:'🇫🇷'}, away:{n:'Sweden',f:'🇸🇪'},
         date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'12:00',
-        venue:'MetLife Stadium, New Jersey', status:'tbc', dk:'Jul1' },
-      { id:'M80', home:{n:'Mexico',f:'🇲🇽'}, away:{n:'TBC (Best 3rd place)',f:''},
+        venue:'MetLife Stadium, New Jersey', status:'confirmed', dk:'Jul1' },
+      { id:'M80', home:{n:'Mexico',f:'🇲🇽'}, away:{n:'Ecuador',f:'🇪🇨'},
         date_en:'Wed 1 Jul', date_es:'Mié 1 Jul', time:'16:00',
-        venue:'Rose Bowl, Los Angeles', status:'partial', dk:'Jul1' },
-      { id:'M81', home:{n:'TBC (Group L winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
+        venue:'Estadio Azteca, Mexico City', status:'confirmed', dk:'Jul1' },
+      { id:'M81', home:{n:'England',f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿'}, away:{n:'DR Congo',f:'🇨🇩'},
         date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'07:00',
-        venue:'Mercedes-Benz Stadium, Atlanta', status:'tbc', dk:'Jul2' },
-      { id:'M82', home:{n:'TBC (Group G winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
+        venue:'Mercedes-Benz Stadium, Atlanta', status:'confirmed', dk:'Jul2' },
+      { id:'M82', home:{n:'Belgium',f:'🇧🇪'}, away:{n:'Senegal',f:'🇸🇳'},
         date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'11:00',
-        venue:'Lumen Field, Seattle', status:'tbc', dk:'Jul2' },
+        venue:'Lumen Field, Seattle', status:'confirmed', dk:'Jul2' },
       { id:'M83', home:{n:'USA',f:'🇺🇸'}, away:{n:'Bosnia & Herzegovina',f:'🇧🇦'},
         date_en:'Thu 2 Jul', date_es:'Jue 2 Jul', time:'15:00',
         venue:"Levi's Stadium, Santa Clara", status:'confirmed', dk:'Jul2' },
-      { id:'M84', home:{n:'TBC (Group J winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
+      { id:'M84', home:{n:'Spain',f:'🇪🇸'}, away:{n:'Austria',f:'🇦🇹'},
         date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'08:00',
-        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
-      { id:'M85', home:{n:'TBC (Group H winner)',f:''}, away:{n:'TBC (Group K runner-up)',f:''},
+        venue:'SoFi Stadium, Los Angeles', status:'confirmed', dk:'Jul3' },
+      { id:'M85', home:{n:'Portugal',f:'🇵🇹'}, away:{n:'Croatia',f:'🇭🇷'},
         date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'12:00',
-        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
-      { id:'M86', home:{n:'TBC (Group K winner)',f:''}, away:{n:'TBC (Best 3rd place)',f:''},
+        venue:'BMO Field, Toronto', status:'confirmed', dk:'Jul3' },
+      { id:'M86', home:{n:'Switzerland',f:'🇨🇭'}, away:{n:'Algeria',f:'🇩🇿'},
         date_en:'Fri 3 Jul', date_es:'Vie 3 Jul', time:'16:00',
-        venue:'TBC Venue', status:'tbc', dk:'Jul3' },
-      { id:'M87', home:{n:'Argentina',f:'🇦🇷'}, away:{n:'TBC',f:''},
+        venue:'BC Place, Vancouver', status:'confirmed', dk:'Jul3' },
+      { id:'M87', home:{n:'Australia',f:'🇦🇺'}, away:{n:'Egypt',f:'🇪🇬'},
         date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'08:00',
-        venue:'TBC Venue', status:'partial', dk:'Jul4' },
-      { id:'M88', home:{n:'TBC (Group J runner-up)',f:''}, away:{n:'TBC (Group K winner)',f:''},
+        venue:'AT&T Stadium, Arlington', status:'confirmed', dk:'Jul4' },
+      { id:'M88', home:{n:'Argentina',f:'🇦🇷'}, away:{n:'Cape Verde',f:'🇨🇻'},
         date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'12:00',
-        venue:'TBC Venue', status:'tbc', dk:'Jul4' },
-      { id:'M89', home:{n:'TBC (Group H runner-up)',f:''}, away:{n:'TBC',f:''},
+        venue:'Hard Rock Stadium, Miami', status:'confirmed', dk:'Jul4' },
+      { id:'M89', home:{n:'Colombia',f:'🇨🇴'}, away:{n:'Ghana',f:'🇬🇭'},
         date_en:'Sat 4 Jul', date_es:'Sáb 4 Jul', time:'16:00',
-        venue:'TBC Venue', status:'tbc', dk:'Jul4' },
+        venue:'Arrowhead Stadium, Kansas City', status:'confirmed', dk:'Jul4' },
     ];
 
     const GROUPS = [
       { name:'A', teams:[
         {n:'Mexico',      f:'🇲🇽', pts:9, st:'through'},
         {n:'South Africa',f:'🇿🇦', pts:4, st:'through'},
-        {n:'South Korea', f:'🇰🇷', pts:3, st:'out'},
+        {n:'South Korea', f:'🇰🇷', pts:3, st:'through'},
         {n:'Czechia',     f:'🇨🇿', pts:1, st:'out'},
       ]},
       { name:'B', teams:[
@@ -542,61 +542,61 @@
       { name:'C', teams:[
         {n:'Brazil',  f:'🇧🇷',            pts:7, st:'through'},
         {n:'Morocco', f:'🇲🇦',            pts:7, st:'through'},
-        {n:'Scotland',f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',        pts:3, st:'out'},
+        {n:'Scotland',f:'🏴󠁧󠁢󠁳󠁣󠁴󠁿',        pts:3, st:'through'},
         {n:'Haiti',   f:'🇭🇹',            pts:0, st:'out'},
       ]},
       { name:'D', teams:[
         {n:'USA',      f:'🇺🇸', pts:6, st:'through'},
         {n:'Australia',f:'🇦🇺', pts:4, st:'through'},
-        {n:'Paraguay', f:'🇵🇾', pts:4, st:'tbc'},
+        {n:'Paraguay', f:'🇵🇾', pts:4, st:'through'},
         {n:'Türkiye',  f:'🇹🇷', pts:3, st:'out'},
       ]},
       { name:'E', teams:[
         {n:'Germany',    f:'🇩🇪', pts:6, st:'through'},
         {n:'Ivory Coast',f:'🇨🇮', pts:6, st:'through'},
-        {n:'Ecuador',    f:'🇪🇨', pts:4, st:'tbc'},
+        {n:'Ecuador',    f:'🇪🇨', pts:4, st:'through'},
         {n:'Curaçao',   f:'',    pts:1, st:'out'},
       ]},
       { name:'F', teams:[
         {n:'Netherlands',f:'🇳🇱', pts:7, st:'through'},
         {n:'Japan',      f:'🇯🇵', pts:5, st:'through'},
-        {n:'Sweden',     f:'🇸🇪', pts:4, st:'tbc'},
+        {n:'Sweden',     f:'🇸🇪', pts:4, st:'through'},
         {n:'Tunisia',    f:'🇹🇳', pts:0, st:'out'},
       ]},
       { name:'G', teams:[
-        {n:'Egypt',      f:'🇪🇬', pts:4, st:'through'},
-        {n:'Iran',       f:'🇮🇷', pts:2, st:'through'},
-        {n:'Belgium',    f:'🇧🇪', pts:2, st:'tbc'},
+        {n:'Belgium',    f:'🇧🇪', pts:5, st:'through'},
+        {n:'Egypt',      f:'🇪🇬', pts:5, st:'through'},
+        {n:'Iran',       f:'🇮🇷', pts:3, st:'through'},
         {n:'New Zealand',f:'🇳🇿', pts:1, st:'out'},
       ]},
       { name:'H', teams:[
-        {n:'Spain',        f:'🇪🇸', pts:4, st:'through'},
-        {n:'Uruguay',      f:'🇺🇾', pts:2, st:'through'},
-        {n:'Cape Verde',   f:'🇨🇻', pts:2, st:'tbc'},
+        {n:'Spain',        f:'🇪🇸', pts:7, st:'through'},
+        {n:'Cape Verde',   f:'🇨🇻', pts:3, st:'through'},
+        {n:'Uruguay',      f:'🇺🇾', pts:2, st:'out'},
         {n:'Saudi Arabia', f:'🇸🇦', pts:1, st:'out'},
       ]},
       { name:'I', teams:[
-        {n:'France', f:'🇫🇷', pts:6, st:'through'},
+        {n:'France', f:'🇫🇷', pts:9, st:'through'},
         {n:'Norway', f:'🇳🇴', pts:6, st:'through'},
-        {n:'Senegal',f:'🇸🇳', pts:0, st:'out'},
+        {n:'Senegal',f:'🇸🇳', pts:3, st:'through'},
         {n:'Iraq',   f:'🇮🇶', pts:0, st:'out'},
       ]},
       { name:'J', teams:[
-        {n:'Argentina',f:'🇦🇷', pts:6, st:'through'},
-        {n:'Austria',  f:'🇦🇹', pts:3, st:'tbc'},
-        {n:'Algeria',  f:'🇩🇿', pts:3, st:'tbc'},
+        {n:'Argentina',f:'🇦🇷', pts:9, st:'through'},
+        {n:'Austria',  f:'🇦🇹', pts:4, st:'through'},
+        {n:'Algeria',  f:'🇩🇿', pts:4, st:'through'},
         {n:'Jordan',   f:'🇯🇴', pts:0, st:'out'},
       ]},
       { name:'K', teams:[
         {n:'Colombia',  f:'🇨🇴', pts:6, st:'through'},
         {n:'Portugal',  f:'🇵🇹', pts:4, st:'through'},
-        {n:'Congo DR',  f:'🇨🇩', pts:1, st:'tbc'},
+        {n:'Congo DR',  f:'🇨🇩', pts:4, st:'through'},
         {n:'Uzbekistan',f:'🇺🇿', pts:0, st:'out'},
       ]},
       { name:'L', teams:[
-        {n:'England', f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', pts:4, st:'through'},
+        {n:'England', f:'🏴󠁧󠁢󠁥󠁮󠁧󠁿', pts:7, st:'through'},
+        {n:'Croatia', f:'🇭🇷',          pts:6, st:'through'},
         {n:'Ghana',   f:'🇬🇭',          pts:4, st:'through'},
-        {n:'Croatia', f:'🇭🇷',          pts:3, st:'tbc'},
         {n:'Panama',  f:'🇵🇦',          pts:0, st:'out'},
       ]},
     ];
@@ -868,7 +868,7 @@
     let lang = 'en';
     let activeFilter = 'all';
     let activeTab = 0;
-    let groupStageVisible = true;
+    let groupStageVisible = false;
 
     // ─── CLOCK ─────────────────────────────────────────────────────────────
     function updateClock() {
@@ -900,13 +900,17 @@
     }
 
     // ─── GROUP STAGE TOGGLE ─────────────────────────────────────────────────
-    function toggleGroupStage() {
-      groupStageVisible = !groupStageVisible;
+    function applyGroupVisibility() {
       const show = groupStageVisible;
       document.getElementById('groupFinalGrid').style.display = show ? '' : 'none';
       document.getElementById('txt-gs-meta').style.display = show ? '' : 'none';
       document.getElementById('gs-section-sep').style.display = show ? '' : 'none';
-      document.getElementById('groupToggleBtn').textContent = show ? 'Hide Group Games' : 'Show Group Games';
+      document.getElementById('groupToggleBtn').textContent =
+        show ? '▼ Group Phase Results' : '► Group Phase Results';
+    }
+    function toggleGroupStage() {
+      groupStageVisible = !groupStageVisible;
+      applyGroupVisibility();
     }
 
     // ─── FILTER ─────────────────────────────────────────────────────────────
@@ -1244,6 +1248,7 @@
 
     // ─── INIT ───────────────────────────────────────────────────────────────
     renderAll();
+    applyGroupVisibility();
 
     // ─── AUTO-REFRESH AFTER EACH GAME ENDS ──────────────────────────────────
     // Finds the next upcoming game-end time (kickoff + 120 min) across all
