@@ -1245,13 +1245,31 @@
     // ─── INIT ───────────────────────────────────────────────────────────────
     renderAll();
 
-    // ─── AUTO-REFRESH AT MIDNIGHT AEST (UTC+10) ─────────────────────────────
-    (function scheduleAESTReload() {
-      const MS_DAY = 86400000;
-      const AEST_OFFSET_MS = 10 * 3600000; // UTC+10, fixed — no DST in Jun–Oct
-      const nowAEST = Date.now() + AEST_OFFSET_MS;
-      const msUntilMidnight = MS_DAY - (nowAEST % MS_DAY);
-      setTimeout(() => location.reload(), msUntilMidnight);
+    // ─── AUTO-REFRESH AFTER EACH GAME ENDS ──────────────────────────────────
+    // Finds the next upcoming game-end time (kickoff + 120 min) across all
+    // fixtures and schedules a single reload for it. After reload the script
+    // reruns and picks the next one automatically.
+    (function scheduleGameEndReload() {
+      const MONTH = {Jan:0,Feb:1,Mar:2,Apr:3,May:4,Jun:5,Jul:6,Aug:7,Sep:8,Oct:9,Nov:10,Dec:11};
+      const AEST_OFFSET = 10 * 3600000; // UTC+10, fixed — no DST Jun–Oct
+      const GAME_DURATION = 120 * 60000; // 120 min covers 90 + extra time + stoppage
+
+      function kickoffUTC(dateEn, timeStr) {
+        const [, day, mon] = dateEn.split(' ');
+        const [h, m] = timeStr.split(':').map(Number);
+        // Date.UTC treats args as UTC; subtract AEST offset to get real UTC
+        return Date.UTC(2026, MONTH[mon], +day, h, m) - AEST_OFFSET;
+      }
+
+      const now = Date.now();
+      const nextEnd = [...GROUP_FINAL, ...MATCHES]
+        .map(m => kickoffUTC(m.date_en, m.time) + GAME_DURATION)
+        .filter(t => t > now)
+        .sort((a, b) => a - b)[0];
+
+      if (nextEnd !== undefined) {
+        setTimeout(() => location.reload(), nextEnd - now);
+      }
     })();
   </script>
 </body>
